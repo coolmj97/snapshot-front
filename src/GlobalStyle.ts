@@ -114,7 +114,7 @@ const GlobalStyle = styled.createGlobalStyle`
   body {
     line-height: 1;
     font-family: 'Pretendard Variable', 'Pretendard' !important;
-    color: #000;
+    color: #191919;
     font-size: 18px !important;
   }
   ol,
@@ -138,6 +138,7 @@ const GlobalStyle = styled.createGlobalStyle`
   }
   button {
     font-family: 'Pretendard' !important;
+    color: #191919;
     cursor: pointer;
   }
 
