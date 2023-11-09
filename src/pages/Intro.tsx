@@ -1,52 +1,27 @@
+import Button from '@/components/common/Button/Button';
 import styled from 'styled-components';
-import Button from '../components/common/button/Button';
 
-const IntroPage = () => {
+const Intro = () => {
   return (
-    <Container>
-      <Intro>
-        <img src="./src/assets/logo-large.png" width={'100%'} />
+    <Box>
+      <img src="./src/assets/logo-large.png" width={'100%'} />
 
-        <IntroParagraph>지금 나의 순간을 기록하세요</IntroParagraph>
+      <IntroParagraph>지금 나의 순간을 기록하세요</IntroParagraph>
 
-        <IntroButtons>
-          <Button
-            width="100%"
-            justifyContent="center"
-            marginBottom="8px"
-            background="#f0133a"
-            color="#fff"
-          >
-            로그인
-          </Button>
-          <Button width="100%" justifyContent="center">
-            회원가입
-          </Button>
-        </IntroButtons>
-      </Intro>
-    </Container>
+      <Button
+        width="100%"
+        justifyContent="center"
+        marginBottom="8px"
+        background="#f0133a"
+        color="#fff"
+      >
+        Get Started!
+      </Button>
+    </Box>
   );
 };
 
-export default IntroPage;
-
-const IntroButtons = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-`;
-
-const Container = styled.div`
-  padding: 0 16px;
-  background: linear-gradient(
-    0deg,
-    rgba(255, 253, 213, 1) 0%,
-    rgba(255, 147, 166, 1) 100%,
-    rgba(255, 147, 166, 1) 100%
-  );
-`;
+export default Intro;
 
 const IntroParagraph = styled.p`
   font-size: 1.2rem;
@@ -88,7 +63,7 @@ const IntroParagraph = styled.p`
   }
 `;
 
-const Intro = styled.div`
+const Box = styled.div`
   width: 512px;
   height: 100vh;
   margin: 0 auto;

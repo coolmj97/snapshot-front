@@ -68,7 +68,7 @@ const StyledButton = styled.button<ButtonProps>`
   align-items: center;
   outline: none;
   border: ${(props) => props.border || 'none'};
-  border-radius: ${(props) => props.borderRadius || '8px'};
+  border-radius: ${(props) => props.borderRadius || '4px'};
   padding: ${(props) => props.padding};
   margin-top: ${(props) => props.marginTop};
   margin-right: ${(props) => props.marginRight};
@@ -76,6 +76,19 @@ const StyledButton = styled.button<ButtonProps>`
   margin-left: ${(props) => props.marginLeft};
   margin: ${(props) => props.margin};
   cursor: pointer;
+
+  &:hover {
+    border-color: #f0133a;
+    color: ${(props) =>
+      props.background === '#f0133a' ? props.color : '#f0133a'};
+    transition: all 0.3s ease-in-out;
+  }
+  &:active {
+    border-color: #f0133a;
+    color: ${(props) =>
+      props.background === '#f0133a' ? props.color : '#f0133a'};
+    transition: all 0.3s ease-in-out;
+  }
 
   ${sizeStyles}
 

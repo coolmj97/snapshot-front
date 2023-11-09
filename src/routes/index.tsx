@@ -1,16 +1,16 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import Main from '../features/main';
-import IntroPage from '../pages/Intro';
+import Main from '@/features/main';
+import Intro from '@/pages/Intro';
+import Signup from '@/pages/Signup';
 
 const Router = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<IntroPage />} />
+        <Route path="/" element={<Intro />} />
         <Route path="/main" element={<Main />} />
         <Route path="/auth">
-          <Route path="/auth/sign-up" />
-          <Route path="/auth/login" />
+          <Route path="/auth/sign-up" element={<Signup />} />
         </Route>
         <Route path="/feed">
           <Route path="/feed/create" />
