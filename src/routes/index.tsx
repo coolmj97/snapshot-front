@@ -1,7 +1,6 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Main from '@/features/main';
-import Intro from '@/pages/Intro';
-import Signup from '@/pages/Signup';
+import { Intro, Login, Signup } from '@/pages';
 
 const Router = () => {
   return (
@@ -11,6 +10,7 @@ const Router = () => {
         <Route path="/main" element={<Main />} />
         <Route path="/auth">
           <Route path="/auth/sign-up" element={<Signup />} />
+          <Route path="/auth/login" element={<Login />} />
         </Route>
         <Route path="/feed">
           <Route path="/feed/create" />

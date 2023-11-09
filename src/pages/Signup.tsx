@@ -1,6 +1,5 @@
-import Layout from '@/components/common/Layout/Layout';
-import Title from '@/components/common/Title';
-import SignupForm from '@/features/auth/signup/SignupForm';
+import { Layout, Title } from '@/components/common';
+import { SignupForm } from '@/features/auth';
 import styled from 'styled-components';
 
 const Signup = () => {

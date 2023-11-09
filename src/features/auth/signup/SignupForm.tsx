@@ -1,6 +1,5 @@
-import Button from '@/components/common/Button/Button';
-import Input from '@/components/common/Input/Input';
-import styled from 'styled-components';
+import { Button, Input } from '@/components/common';
+import { Box, Label } from '../auth.styles';
 
 const SignupForm = () => {
   return (
@@ -45,18 +44,3 @@ const SignupForm = () => {
 };
 
 export default SignupForm;
-
-const Label = styled.label`
-  font-size: 1rem;
-  margin-bottom: 8px;
-`;
-
-const Box = styled.div`
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 24px;
-
-  &:last-child {
-    margin-bottom: 0;
-  }
-`;
