@@ -1,5 +1,5 @@
 import { Layout, Title } from '@/components/common';
-import UserSettingForm from '@/features/userSetting/UserSettingForm';
+import UserSettingForm from './UserSettingForm';
 import styled from 'styled-components';
 
 const UserSetting = () => {

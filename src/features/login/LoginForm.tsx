@@ -1,5 +1,5 @@
-import { Box, Label } from '../shared/styles';
 import { Button, Input } from '@/components/common';
+import { Box, Label } from '../shared/styles';
 
 const LoginForm = () => {
   return (

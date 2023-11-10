@@ -1,5 +1,5 @@
 import { Layout, Title } from '@/components/common';
-import { LoginForm } from '@/features';
+import LoginForm from './LoginForm';
 import styled from 'styled-components';
 
 const Login = () => {

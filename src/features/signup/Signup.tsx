@@ -1,6 +1,6 @@
 import { Layout, Title } from '@/components/common';
-import { SignupForm } from '@/features';
 import styled from 'styled-components';
+import SignupForm from './SignupForm';
 
 const Signup = () => {
   return (
