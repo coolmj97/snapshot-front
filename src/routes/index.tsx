@@ -1,5 +1,8 @@
+import Intro from '@/features/intro/Intro';
+import Login from '@/features/login/Login';
+import Signup from '@/features/signup/Signup';
+import UserSetting from '@/features/userSetting/UserSetting';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { Intro, Login, Signup, UserSetting } from '@/pages';
 
 const Router = () => {
   return (
