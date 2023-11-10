@@ -7,4 +7,8 @@ export const Header = styled.div`
   width: 1000px;
   padding: 1rem;
   margin: 0 auto;
+
+  @media (max-width: 576px) {
+    width: auto;
+  }
 `;

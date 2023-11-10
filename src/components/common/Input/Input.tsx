@@ -47,6 +47,10 @@ const StyledInput = styled.input<InputProps>`
   &::placeholder {
     font-size: 0.8rem;
   }
+
+  &:not(:last-child) {
+    margin-bottom: 8px;
+  }
 `;
 
 const Input: React.FC<InputProps> = ({

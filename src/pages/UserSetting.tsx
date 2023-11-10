@@ -1,23 +1,22 @@
 import { Layout, Title } from '@/components/common';
-import { LoginForm } from '@/features';
+import UserSettingForm from '@/features/userSetting/UserSettingForm';
 import styled from 'styled-components';
 
-const Login = () => {
+const UserSetting = () => {
   return (
     <Layout>
       <Box>
-        <Title title="로그인"></Title>
-        <LoginForm />
+        <Title title="정보수정"></Title>
+        <UserSettingForm />
       </Box>
     </Layout>
   );
 };
 
-export default Login;
+export default UserSetting;
 
 const Box = styled.div`
   width: 400px;
-  height: 100vh;
   padding: 48px 0;
   margin: 0 auto;
 `;

@@ -1,9 +1,9 @@
+import { Box, Label } from '../shared/styles';
 import { Button, Input } from '@/components/common';
-import { Box, Label } from '../auth.styles';
 
-const SignupForm = () => {
+const LoginForm = () => {
   return (
-    <div>
+    <>
       <form>
         <Box>
           <Label htmlFor="email">이메일</Label>
@@ -24,23 +24,13 @@ const SignupForm = () => {
             onChange={(e) => console.log(e.target.value)}
           />
         </Box>
-
-        <Box>
-          <Label htmlFor="username">이름</Label>
-          <Input
-            id="username"
-            placeholder="이름"
-            value=""
-            onChange={(e) => console.log(e.target.value)}
-          />
-        </Box>
       </form>
 
       <Button background="#f0133a" color="#fff" marginTop="48px" fullWidth>
-        회원가입
+        로그인
       </Button>
-    </div>
+    </>
   );
 };
 
-export default SignupForm;
+export default LoginForm;
