@@ -26,7 +26,7 @@ const SignupForm = () => {
         </Box>
       </form>
 
-      <Button background="#f0133a" color="#fff" marginTop="48px" fullWidth>
+      <Button $background="#f0133a" $color="#fff" $marginTop="48px" $fullWidth>
         회원가입
       </Button>
     </div>

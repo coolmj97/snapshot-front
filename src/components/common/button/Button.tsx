@@ -3,28 +3,28 @@ import styled, { css } from 'styled-components';
 
 interface ButtonProps {
   children?: ReactNode;
-  width?: string;
-  height?: string;
-  padding?: string;
-  border?: string;
-  borderRadius?: string;
-  color?: string;
-  background?: string;
-  size?: 'small' | 'medium' | 'large';
-  fullWidth?: boolean;
-  marginTop?: string;
-  marginRight?: string;
-  marginBottom?: string;
-  marginLeft?: string;
-  margin?: string;
-  justifyContent?: string;
+  $width?: string;
+  $height?: string;
+  $padding?: string;
+  $border?: string;
+  $borderRadius?: string;
+  $color?: string;
+  $background?: string;
+  $size?: 'small' | 'medium' | 'large';
+  $fullWidth?: boolean;
+  $marginTop?: string;
+  $marginRight?: string;
+  $marginBottom?: string;
+  $marginLeft?: string;
+  $margin?: string;
+  $justifyContent?: string;
 }
 
 const colorStyles = css<ButtonProps>`
-  ${({ color, background }) => {
+  ${({ $color, $background }) => {
     return css<ButtonProps>`
-      background: ${background || '#fff'};
-      color: ${color};
+      background: ${$background || '#fff'};
+      color: ${$color};
     `;
   }}
 `;
@@ -45,15 +45,15 @@ const sizes = {
 };
 
 const sizeStyles = css<ButtonProps>`
-  ${({ size }) => css`
-    padding: ${sizes[size || 'small'].padding};
-    font-size: ${sizes[size || 'small'].fontSize};
+  ${({ $size }) => css`
+    padding: ${sizes[$size || 'small'].padding};
+    font-size: ${sizes[$size || 'small'].fontSize};
   `}
 `;
 
 const fullWidthStyle = css<ButtonProps>`
   ${(props) =>
-    props.fullWidth &&
+    props.$fullWidth &&
     css`
       width: 100%;
       justify-content: center;
@@ -61,32 +61,30 @@ const fullWidthStyle = css<ButtonProps>`
 `;
 
 const StyledButton = styled.button<ButtonProps>`
-  width: ${(props) => props.width};
-  height: ${(props) => props.height};
+  width: ${(props) => props.$width};
+  height: ${(props) => props.$height};
   display: inline-flex;
-  justify-content: ${(props) => props.justifyContent};
+  justify-content: ${(props) => props.$justifyContent};
   align-items: center;
   outline: none;
-  border: ${(props) => props.border || 'none'};
-  border-radius: ${(props) => props.borderRadius || '4px'};
-  padding: ${(props) => props.padding};
-  margin-top: ${(props) => props.marginTop};
-  margin-right: ${(props) => props.marginRight};
-  margin-bottom: ${(props) => props.marginBottom};
-  margin-left: ${(props) => props.marginLeft};
-  margin: ${(props) => props.margin};
+  border: ${(props) => props.$border || 'none'};
+  border-radius: ${(props) => props.$borderRadius || '4px'};
+  padding: ${(props) => props.$padding};
+  margin-top: ${(props) => props.$marginTop};
+  margin-right: ${(props) => props.$marginRight};
+  margin-bottom: ${(props) => props.$marginBottom};
+  margin-left: ${(props) => props.$marginLeft};
+  margin: ${(props) => props.$margin};
   cursor: pointer;
 
   &:hover {
     border-color: #f0133a;
-    color: ${(props) =>
-      props.background === '#f0133a' ? props.color : '#f0133a'};
+    color: ${(props) => (props.$background === '#f0133a' ? props.color : '#f0133a')};
     transition: all 0.3s ease-in-out;
   }
   &:active {
     border-color: #f0133a;
-    color: ${(props) =>
-      props.background === '#f0133a' ? props.color : '#f0133a'};
+    color: ${(props) => (props.$background === '#f0133a' ? props.color : '#f0133a')};
     transition: all 0.3s ease-in-out;
   }
 
@@ -97,15 +95,9 @@ const StyledButton = styled.button<ButtonProps>`
   ${fullWidthStyle}
 `;
 
-const Button: React.FC<ButtonProps> = ({
-  children,
-  color,
-  size,
-  fullWidth,
-  ...rest
-}) => {
+const Button: React.FC<ButtonProps> = ({ children, $color, $size, $fullWidth, ...rest }) => {
   return (
-    <StyledButton color={color} size={size} fullWidth={fullWidth} {...rest}>
+    <StyledButton color={$color} $size={$size} $fullWidth={$fullWidth} {...rest}>
       {children}
     </StyledButton>
   );

@@ -9,11 +9,11 @@ const Intro = () => {
       <IntroParagraph>지금 나의 순간을 기록하세요</IntroParagraph>
 
       <Button
-        width="100%"
-        justifyContent="center"
-        marginBottom="8px"
-        background="#f0133a"
-        color="#fff"
+        $width="100%"
+        $justifyContent="center"
+        $marginBottom="8px"
+        $background="#f0133a"
+        $color="#fff"
       >
         Get Started!
       </Button>

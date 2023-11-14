@@ -31,7 +31,7 @@ const UserSettingForm = () => {
               />
             </>
           ) : (
-            <Button border="1px solid #D3D3D3">비밀번호 수정</Button>
+            <Button $border="1px solid #D3D3D3">비밀번호 수정</Button>
           )}
         </Box>
 
@@ -46,7 +46,7 @@ const UserSettingForm = () => {
         </Box>
       </form>
 
-      <Button background="#f0133a" color="#fff" marginTop="48px" fullWidth>
+      <Button $background="#f0133a" $color="#fff" $marginTop="48px" $fullWidth>
         정보 수정
       </Button>
     </>

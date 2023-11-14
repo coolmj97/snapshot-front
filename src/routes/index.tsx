@@ -1,3 +1,4 @@
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Intro from '@/pages/IntroPage';
 import Login from '@/pages/LoginPage';
 import Signup from '@/pages/SignupPage';
@@ -6,7 +7,6 @@ import FeedCreatePage from '@/pages/feed/FeedCreatePage';
 import FeedDetailPage from '@/pages/feed/FeedDetailPage';
 import FeedEditPage from '@/pages/feed/FeedEditPage';
 import FeedListPage from '@/pages/feed/FeedListPage';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 const Router = () => {
   return (
