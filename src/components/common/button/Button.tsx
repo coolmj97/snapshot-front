@@ -97,7 +97,7 @@ const StyledButton = styled.button<ButtonProps>`
 
 const Button: React.FC<ButtonProps> = ({ children, $color, $size, $fullWidth, ...rest }) => {
   return (
-    <StyledButton color={$color} $size={$size} $fullWidth={$fullWidth} {...rest}>
+    <StyledButton $color={$color} $size={$size} $fullWidth={$fullWidth} {...rest}>
       {children}
     </StyledButton>
   );

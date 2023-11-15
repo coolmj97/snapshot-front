@@ -28,7 +28,6 @@ const GlobalStyle = styled.createGlobalStyle`
   code,
   del,
   dfn,
-  em,
   img,
   ins,
   kbd,
@@ -37,7 +36,6 @@ const GlobalStyle = styled.createGlobalStyle`
   samp,
   small,
   strike,
-  strong,
   sub,
   sup,
   tt,
@@ -142,8 +140,7 @@ const GlobalStyle = styled.createGlobalStyle`
     font-weight: 45 920;
     font-style: normal;
     font-display: swap;
-    src: url('/fonts/pretendard/PretendardVariable.woff2')
-      format('woff2-variations');
+    src: url('/fonts/pretendard/PretendardVariable.woff2') format('woff2-variations');
   }
 
   @font-face {
