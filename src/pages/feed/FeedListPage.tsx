@@ -1,4 +1,4 @@
-import { Layout, Title } from '@/components/common';
+import { Layout, Title } from '@/components';
 import ListCard from '@/features/feed/List/ListCard';
 import { generatePath, useNavigate } from 'react-router';
 import styled from 'styled-components';

@@ -1,6 +1,6 @@
-import { Button } from '@/components/common';
-import Editor from '@/components/common/Editor/Editor';
-import Upload from '@/components/common/Upload/Upload';
+import { Button } from '@/components';
+import Editor from '@/components/Editor/Editor';
+import Upload from '@/components/Upload/Upload';
 import { useState } from 'react';
 import styled from 'styled-components';
 

@@ -1,4 +1,4 @@
-import { Button, Input } from '@/components/common';
+import { Button, Input } from '@/components';
 import { Box, Label } from '../shared/styles';
 
 const SignupForm = () => {

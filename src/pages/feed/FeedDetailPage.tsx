@@ -1,5 +1,4 @@
-import { Layout } from '@/components/common';
-import Carousel from '@/features/feed/Detail/Carousel';
+import { Carousel, Layout } from '@/components';
 import styled from 'styled-components';
 
 const FeedDetailPage = () => {

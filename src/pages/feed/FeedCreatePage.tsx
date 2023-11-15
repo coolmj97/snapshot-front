@@ -1,4 +1,4 @@
-import { Layout } from '@/components/common';
+import { Layout } from '@/components';
 import FeedForm from '@/features/feed/Form/FeedForm';
 import styled from 'styled-components';
 

@@ -1,4 +1,4 @@
-import { Layout, Title } from '@/components/common';
+import { Layout, Title } from '@/components';
 import LoginForm from '../features/login/LoginForm';
 import styled from 'styled-components';
 
