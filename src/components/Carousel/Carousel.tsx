@@ -6,6 +6,10 @@ import styled from 'styled-components';
 import { PrevArrow } from '@/assets/icons/PrevArrow';
 import { NextArrow } from '@/assets/icons/NextArrow';
 
+interface CarouselProps {
+  data: string[];
+}
+
 const Carousel = () => {
   const slickRef = useRef<any>(null);
 

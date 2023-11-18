@@ -2,12 +2,17 @@ import { Button, Input } from '@/components';
 import { Box, Label } from '../shared/styles';
 import { useState } from 'react';
 
-const UserSettingForm = () => {
+interface UserSettingFormProps {
+  onSubmit: () => void;
+}
+
+const UserSettingForm = (props: UserSettingFormProps) => {
+  const { onSubmit } = props;
   const [isPasswordEditMode, setIsPasswordEditMode] = useState(false);
 
   return (
     <>
-      <form>
+      <form onSubmit={onSubmit}>
         <Box>
           <Label htmlFor="email">이메일</Label>
           <div>mj340@naver.com</div>
@@ -46,7 +51,7 @@ const UserSettingForm = () => {
         </Box>
       </form>
 
-      <Button $background="#f0133a" $color="#fff" $marginTop="48px" $fullWidth>
+      <Button type="submit" $background="#f0133a" $color="#fff" $marginTop="48px" $fullWidth>
         정보 수정
       </Button>
     </>

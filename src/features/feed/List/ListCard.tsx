@@ -1,8 +1,6 @@
+import { GetAllFeed } from '@/apis/feed/feedApi.types';
 import { Card, Text } from './ListCard.styles';
-
-interface ListCardProps {
-  onClick?: () => void;
-}
+import { ListCardProps } from './ListCard.types';
 
 const ListCard = (props: ListCardProps) => {
   const { onClick } = props;

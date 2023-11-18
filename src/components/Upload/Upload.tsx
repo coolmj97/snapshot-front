@@ -1,13 +1,17 @@
 import { Add } from '@/assets/icons/Add';
 import styled from 'styled-components';
 
+interface UploadProps {
+  onChange: () => void;
+}
+
 const Upload = () => {
   return (
     <>
       <Label htmlFor="file">
         <Add />
       </Label>
-      <UploadInput type="file" id="file" />
+      <UploadInput type="file" id="file" onChange={() => console.log('file upload !!!!!')} />
     </>
   );
 };

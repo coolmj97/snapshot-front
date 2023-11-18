@@ -1,15 +1,21 @@
+import { PostFeedData } from '@/apis/feed/feedApi.types';
 import { Button } from '@/components';
 import Editor from '@/components/Editor/Editor';
 import Upload from '@/components/Upload/Upload';
 import { useState } from 'react';
 import styled from 'styled-components';
 
-const FeedForm = () => {
+interface FeedFormProps {
+  onSubmit: () => void;
+}
+
+const FeedForm = (props: FeedFormProps) => {
+  const { onSubmit } = props;
   const [content, setContent] = useState<string>('');
 
   return (
-    <FormContainer>
-      <form>
+    <div>
+      <form onSubmit={onSubmit}>
         <Box>
           <Label>사진 (최대 5장)</Label>
           <Upload />
@@ -24,18 +30,11 @@ const FeedForm = () => {
       <Button $background="#f0133a" $color="#fff" $marginTop="48px" $fullWidth>
         등록
       </Button>
-    </FormContainer>
+    </div>
   );
 };
 
 export default FeedForm;
-
-const FormContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  position: relative;
-`;
 
 const Box = styled.div`
   margin-bottom: 48px;
@@ -47,5 +46,5 @@ const Box = styled.div`
 
 const Label = styled.div`
   margin-bottom: 16px;
-  font-size: 20px;
+  font-size: 1.2rem;
 `;

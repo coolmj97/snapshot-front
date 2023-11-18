@@ -2,6 +2,7 @@ import React, { ReactNode } from 'react';
 import styled, { css } from 'styled-components';
 
 interface ButtonProps {
+  type?: 'submit' | 'reset' | 'button' | undefined;
   children?: ReactNode;
   $width?: string;
   $height?: string;

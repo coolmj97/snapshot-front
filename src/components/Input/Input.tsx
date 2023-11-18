@@ -5,12 +5,12 @@ interface InputProps {
   id: string;
   name?: string;
   type?: HTMLInputTypeAttribute;
-  children?: ReactNode;
-  width?: string;
-  fullWidth?: boolean;
   placeholder?: string;
   value: string;
   onChange: (value: ChangeEvent<HTMLInputElement>) => void;
+  children?: ReactNode;
+  width?: string;
+  fullWidth?: boolean;
   marginTop?: string;
   marginRight?: string;
   marginBottom?: string;
@@ -59,12 +59,14 @@ const Input: React.FC<InputProps> = ({
   onChange,
   id,
   name,
+  value,
   ...rest
 }) => {
   return (
     <StyledInput
       id={id}
       name={name}
+      value={value}
       onChange={onChange}
       fullWidth={fullWidth}
       {...rest}
