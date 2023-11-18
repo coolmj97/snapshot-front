@@ -1,8 +1,8 @@
 import { Layout, Title } from '@/components';
 import styled from 'styled-components';
-import SignupForm from '../features/signup/SignupForm';
+import SignupForm from '../features/signUp/SignUpForm';
 
-const Signup = () => {
+const SignUpPage = () => {
   return (
     <>
       <Layout>
@@ -19,7 +19,7 @@ const Signup = () => {
   );
 };
 
-export default Signup;
+export default SignUpPage;
 
 const Box = styled.div`
   width: 400px;

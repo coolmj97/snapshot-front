@@ -1,7 +1,7 @@
 import { Button, Input } from '@/components';
 import { Box, Label } from '../shared/styles';
 
-const SignupForm = () => {
+const SignUpForm = () => {
   return (
     <div>
       <form>
@@ -33,4 +33,4 @@ const SignupForm = () => {
   );
 };
 
-export default SignupForm;
+export default SignUpForm;

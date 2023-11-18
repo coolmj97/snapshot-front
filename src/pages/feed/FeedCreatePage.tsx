@@ -15,9 +15,9 @@ const FeedCreatePage = () => {
 export default FeedCreatePage;
 
 const Box = styled.div`
-  width: 1000px;
+  width: auto;
   margin: 0 auto;
-  padding: 48px;
+  padding: 24px;
   display: flex;
   justify-content: center;
 `;

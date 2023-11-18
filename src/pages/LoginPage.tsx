@@ -2,7 +2,7 @@ import { Layout, Title } from '@/components';
 import LoginForm from '../features/login/LoginForm';
 import styled from 'styled-components';
 
-const Login = () => {
+const LoginPage = () => {
   return (
     <Layout>
       <Box>
@@ -13,7 +13,7 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default LoginPage;
 
 const Box = styled.div`
   width: 400px;
