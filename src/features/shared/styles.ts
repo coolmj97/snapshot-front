@@ -14,3 +14,8 @@ export const Box = styled.div`
     margin-bottom: 0;
   }
 `;
+
+export const Error = styled.div`
+  color: red;
+  font-size: 0.8rem;
+`;

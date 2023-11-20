@@ -2,8 +2,8 @@ import createAxios from '@/utils/createAxios';
 import { GetUser, UserFormData } from './userApi.types';
 
 //회원가입
-export const createUser = (data: UserFormData) => {
-  return createAxios().post('/sign-up', data);
+export const postNewUser = (payload: UserFormData) => {
+  return createAxios().post('/users/sign-up', payload);
 };
 
 //특정 유저 정보
@@ -12,8 +12,8 @@ export const findOneByUserId = (id: string) => {
 };
 
 //유저 정보 수정
-export const updateUser = (id: string, data: UserFormData) => {
-  return createAxios().patch(`/users/${id}`, data);
+export const updateUser = (id: string, payload: UserFormData) => {
+  return createAxios().patch(`/users/${id}`, payload);
 };
 
 //유저 정보 삭제

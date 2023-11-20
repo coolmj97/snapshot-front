@@ -1,14 +1,7 @@
-import { ChangeEvent, HTMLInputTypeAttribute, ReactNode } from 'react';
+import { InputHTMLAttributes } from 'react';
 import styled, { css } from 'styled-components';
 
-interface InputProps {
-  id: string;
-  name?: string;
-  type?: HTMLInputTypeAttribute;
-  placeholder?: string;
-  value: string;
-  onChange: (value: ChangeEvent<HTMLInputElement>) => void;
-  children?: ReactNode;
+interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   width?: string;
   fullWidth?: boolean;
   marginTop?: string;
@@ -53,26 +46,13 @@ const StyledInput = styled.input<InputProps>`
   }
 `;
 
-const Input: React.FC<InputProps> = ({
-  children,
-  fullWidth,
-  onChange,
-  id,
-  name,
-  value,
-  ...rest
-}) => {
+const Input: React.FC<InputProps> = ({ children, fullWidth, ...rest }) => {
   return (
-    <StyledInput
-      id={id}
-      name={name}
-      value={value}
-      onChange={onChange}
-      fullWidth={fullWidth}
-      {...rest}
-    >
-      {children}
-    </StyledInput>
+    <>
+      <StyledInput fullWidth={fullWidth} {...rest}>
+        {children}
+      </StyledInput>
+    </>
   );
 };
 
