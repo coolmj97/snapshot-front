@@ -7,6 +7,7 @@ import { postNewUser } from '@/apis/user/userApi';
 import { FormEvent, useMemo, useState } from 'react';
 import Modal from '@/components/Modal/Modal';
 import { useNavigate } from 'react-router';
+import { signUpByEmail } from '@/service/auth';
 
 const SignUpPage = () => {
   const user = useSelector((state: RootState) => state.user);
@@ -15,7 +16,7 @@ const SignUpPage = () => {
   const navigate = useNavigate();
 
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const [openModal, setOpenModal] = useState(false);
+  const [openModal, setOpenModal] = useState<boolean>(false);
 
   const errorMsg = useMemo(() => {
     if (!username) {
@@ -50,7 +51,7 @@ const SignUpPage = () => {
     };
 
     try {
-      await postNewUser(payload);
+      await signUpByEmail(payload);
       setIsSubmitted(true);
     } catch (e: any) {
       alert(e.response.data.message);
@@ -61,7 +62,7 @@ const SignUpPage = () => {
     <>
       <Layout>
         <Box>
-          {!isSubmitted ? (
+          {isSubmitted ? (
             <div
               style={{
                 marginTop: '60px',
@@ -88,14 +89,14 @@ const SignUpPage = () => {
             </div>
           ) : (
             <>
-              <Title title="회원가입"></Title>
+              <Title title="회원가입" />
               <SignUpForm onSubmit={onSubmit} user={user} />
             </>
           )}
         </Box>
       </Layout>
 
-      <Modal description={errorMsg} visible={openModal} onClose={() => setOpenModal(false)} />
+      <Modal description={errorMsg} $visible={openModal} onClose={() => setOpenModal(false)} />
     </>
   );
 };

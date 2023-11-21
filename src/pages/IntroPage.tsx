@@ -1,7 +1,10 @@
 import { Button } from '@/components';
+import { useNavigate } from 'react-router';
 import styled from 'styled-components';
 
 const Intro = () => {
+  const navigate = useNavigate();
+
   return (
     <Box>
       <img src="./src/assets/logo-large.png" width={'100%'} />
@@ -14,6 +17,7 @@ const Intro = () => {
         $marginBottom="8px"
         $background="#f0133a"
         $color="#fff"
+        onClick={() => navigate('/login')}
       >
         Get Started!
       </Button>

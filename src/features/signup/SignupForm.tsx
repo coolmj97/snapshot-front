@@ -2,17 +2,12 @@ import { Button, Input } from '@/components';
 import { Box, Error, Label } from '../shared/styles';
 import { UserState, changeForm } from '@/redux/userSlice';
 import { useDispatch } from 'react-redux';
-import { ChangeEvent, FormEvent, useState } from 'react';
+import { FormEvent } from 'react';
+import { useForm } from '../shared/useForm';
 
 interface SignUpFormProps {
   onSubmit: (e: FormEvent<HTMLFormElement>) => void;
   user: UserState;
-}
-
-interface IsValidType {
-  email: boolean;
-  password: boolean;
-  passwordCheck: boolean;
 }
 
 const SignUpForm = (props: SignUpFormProps) => {
@@ -20,33 +15,9 @@ const SignUpForm = (props: SignUpFormProps) => {
   const { email, username, password, passwordCheck } = user;
   const dispatch = useDispatch();
 
-  const [isValid, setIsValid] = useState<IsValidType>({
-    email: true,
-    password: true,
-    passwordCheck: true,
+  const { isValid, onChangeField } = useForm({
+    action: changeForm,
   });
-
-  const checkField = (name: keyof IsValidType, e: any) => {
-    const emailRegex = new RegExp('[a-z0-9]+@[a-z]+.[a-z]{2,3}');
-    const pwRegex = new RegExp('(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*?_]).{8,15}');
-
-    if (name === 'email') {
-      return emailRegex.test(e.target.value);
-    } else if (name === 'password' || name === 'passwordCheck') {
-      return pwRegex.test(e.target.value);
-    }
-  };
-
-  const onChange = (name: keyof IsValidType, e: ChangeEvent<HTMLInputElement>) => {
-    const isValid = checkField(name, e);
-
-    setIsValid((prev) => ({
-      ...prev,
-      [name]: isValid,
-    }));
-
-    dispatch(changeForm({ key: name, value: e.target.value }));
-  };
 
   return (
     <div>
@@ -68,7 +39,7 @@ const SignUpForm = (props: SignUpFormProps) => {
             id="email"
             placeholder="이메일"
             value={email}
-            onChange={(e) => onChange('email', e)}
+            onChange={(e) => onChangeField('email', e)}
           />
           {email && !isValid.email && <Error>이메일 형식이 아닙니다</Error>}
         </Box>
@@ -82,7 +53,7 @@ const SignUpForm = (props: SignUpFormProps) => {
             value={password}
             minLength={8}
             maxLength={15}
-            onChange={(e) => onChange('password', e)}
+            onChange={(e) => onChangeField('password', e)}
           />
           {password && !isValid.password && (
             <Error>하나 이상의 영문, 숫자, 특수문자 조합 8~15자</Error>
@@ -96,7 +67,7 @@ const SignUpForm = (props: SignUpFormProps) => {
             id="password-check"
             placeholder="비밀번호 확인"
             value={passwordCheck}
-            onChange={(e) => onChange('passwordCheck', e)}
+            onChange={(e) => onChangeField('passwordCheck', e)}
           />
           {passwordCheck && !isValid.passwordCheck && <Error>비밀번호가 일치하지 않습니다</Error>}
         </Box>
