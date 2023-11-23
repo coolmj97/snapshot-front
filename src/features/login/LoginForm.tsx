@@ -83,7 +83,7 @@ const LoginForm = () => {
         </Button>
       </form>
 
-      <Modal description={errorMsg} $visible={openModal} onClose={() => setOpenModal(false)} />
+      <Modal content={errorMsg} $visible={openModal} onClose={() => setOpenModal(false)} />
     </>
   );
 };

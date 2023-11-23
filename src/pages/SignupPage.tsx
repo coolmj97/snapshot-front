@@ -3,19 +3,21 @@ import styled from 'styled-components';
 import SignUpForm from '../features/signUp/SignUpForm';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store';
-import { postNewUser } from '@/apis/user/userApi';
-import { FormEvent, useMemo, useState } from 'react';
+import { FormEvent, useEffect, useMemo, useState } from 'react';
 import Modal from '@/components/Modal/Modal';
 import { useNavigate } from 'react-router';
 import { signUpByEmail } from '@/service/auth';
+import { useDispatch } from 'react-redux';
+import { checkRequestError, clearForm } from '@/redux/userSlice';
 
 const SignUpPage = () => {
   const user = useSelector((state: RootState) => state.user);
-  const { email, username, password, passwordCheck } = user;
+  const { email, username, password, passwordCheck, isError } = user;
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
   const [openModal, setOpenModal] = useState<boolean>(false);
 
   const errorMsg = useMemo(() => {
@@ -34,7 +36,10 @@ const SignUpPage = () => {
     if (!passwordCheck) {
       return '비밀번호 확인을 입력해주세요.';
     }
-  }, [username, email, password, passwordCheck]);
+    if (isError) {
+      return '이미 가입된 계정입니다.';
+    }
+  }, [username, email, password, passwordCheck, isError]);
 
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -54,9 +59,16 @@ const SignUpPage = () => {
       await signUpByEmail(payload);
       setIsSubmitted(true);
     } catch (e: any) {
-      alert(e.response.data.message);
+      if (e.code.includes('email-already-in-use')) {
+        dispatch(checkRequestError(true));
+        setOpenModal(true);
+      }
     }
   };
+
+  useEffect(() => {
+    dispatch(clearForm());
+  }, []);
 
   return (
     <>
@@ -96,7 +108,7 @@ const SignUpPage = () => {
         </Box>
       </Layout>
 
-      <Modal description={errorMsg} $visible={openModal} onClose={() => setOpenModal(false)} />
+      <Modal content={errorMsg} $visible={openModal} onClose={() => setOpenModal(false)} />
     </>
   );
 };

@@ -4,13 +4,13 @@ import { Button } from '..';
 import { Dim, ModalDesc, ModalTitle, StyledModal } from './Modal.styles';
 
 interface ModalProps {
-  description: ReactNode | string;
+  content: ReactNode | string;
   $visible: boolean;
   onClose?: () => void;
 }
 
 const Modal = (props: ModalProps) => {
-  const { description, $visible, onClose } = props;
+  const { content, $visible, onClose } = props;
 
   const modal = document.querySelector('#modal') as HTMLElement;
 
@@ -19,7 +19,7 @@ const Modal = (props: ModalProps) => {
       <StyledModal visible={$visible}>
         <div style={{ width: '100%' }}>
           <ModalTitle>알림</ModalTitle>
-          <ModalDesc>{description}</ModalDesc>
+          <ModalDesc>{content}</ModalDesc>
 
           <div
             style={{

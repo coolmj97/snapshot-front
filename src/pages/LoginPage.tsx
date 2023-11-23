@@ -3,7 +3,6 @@ import LoginForm from '../features/login/LoginForm';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router';
 import { useEffect, useState } from 'react';
-import { logInCheck } from '@/redux/loginSlice';
 import { loginByGoogle } from '@/service/auth';
 import { Email } from '@/assets/icons/Email';
 import { GoogleLogo } from '@/assets/icons/GoogleLogo';
@@ -17,8 +16,7 @@ const LoginPage = () => {
 
   const onLoginWithGoogle = async () => {
     try {
-      const data = await loginByGoogle();
-      navigate('/feed/list');
+      await loginByGoogle();
     } catch (e) {
       console.log(e);
     }
@@ -78,7 +76,7 @@ const SignUpButton = styled.a`
   display: inline-block;
   margin-top: 48px;
   color: #606060;
-  font-size: 16px;
+  font-size: 15px;
   text-decoration: underline;
   cursor: pointer;
 `;

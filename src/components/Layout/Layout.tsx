@@ -9,6 +9,7 @@ interface LayoutProps {
 }
 
 const Layout = ({ children }: LayoutProps) => {
+  const [isLoading, setIsLoading] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const navigate = useNavigate();
@@ -19,15 +20,22 @@ const Layout = ({ children }: LayoutProps) => {
     navigate('/');
   };
 
-  useEffect(() => {
+  const checkCurrentUser = () => {
     authService.onAuthStateChanged((user) => {
       if (user) {
         setIsLoggedIn(true);
       } else {
         setIsLoggedIn(false);
       }
+      setIsLoading(true);
     });
+  };
+
+  useEffect(() => {
+    checkCurrentUser();
   }, []);
+
+  if (!isLoading) return <></>;
 
   return (
     <>
@@ -45,24 +53,29 @@ const Layout = ({ children }: LayoutProps) => {
           >
             <img src="/src/assets/logo.png" width={'100%'} />
           </div>
-          <div>
-            <Button
-              $border="1px solid #D3D3D3"
-              $marginRight="8px"
-              onClick={() => {
-                if (!isLoggedIn) {
+
+          {!isLoggedIn ? (
+            <div>
+              <Button
+                $border="1px solid #D3D3D3"
+                $marginRight="8px"
+                onClick={() => {
                   navigate('/login');
-                } else {
-                  onClickLogOut();
-                }
-              }}
-            >
-              {!isLoggedIn ? '로그인' : '로그아웃'}
-            </Button>
-            <Button $background="#f0133a" $color="#fff" onClick={() => navigate('/sign-up')}>
-              회원가입
-            </Button>
-          </div>
+                }}
+              >
+                로그인
+              </Button>
+              <Button $background="#f0133a" $color="#fff" onClick={() => navigate('/sign-up')}>
+                회원가입
+              </Button>
+            </div>
+          ) : (
+            <>
+              <Button $border="1px solid #D3D3D3" $marginRight="8px" onClick={onClickLogOut}>
+                로그아웃
+              </Button>
+            </>
+          )}
         </Header>
       </div>
 

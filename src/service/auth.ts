@@ -2,19 +2,19 @@ import {
   GoogleAuthProvider,
   browserSessionPersistence,
   createUserWithEmailAndPassword,
-  getAuth,
   setPersistence,
   signInWithEmailAndPassword,
-  signInWithRedirect,
+  signInWithPopup,
 } from 'firebase/auth';
 import { authService } from './firebase';
+import { UserFormData } from '@/apis/user/userApi.types';
 
 const provider = new GoogleAuthProvider();
-const auth = getAuth();
 
 //이메일로 회원가입 및 로그인
-export const signUpByEmail = async (payload: any) => {
+export const signUpByEmail = async (payload: UserFormData) => {
   const { email, password } = payload;
+  await setPersistence(authService, browserSessionPersistence);
   const data = await createUserWithEmailAndPassword(authService, email, password);
   return data;
 };
@@ -30,6 +30,6 @@ export const loginByEmail = async (payload: any) => {
 //구글로 로그인
 export const loginByGoogle = async () => {
   await setPersistence(authService, browserSessionPersistence);
-  const data = await signInWithRedirect(auth, provider);
+  const data = await signInWithPopup(authService, provider);
   return data;
 };
