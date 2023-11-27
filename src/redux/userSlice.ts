@@ -26,10 +26,10 @@ export const userSlice = createSlice({
     checkRequestError: (state, action) => {
       state.isError = action.payload;
     },
-    clearForm: () => initialState,
+    resetForm: () => initialState,
   },
 });
 
-export const { changeForm, checkRequestError, clearForm } = userSlice.actions;
+export const { changeForm, checkRequestError, resetForm } = userSlice.actions;
 
 export default userSlice.reducer;

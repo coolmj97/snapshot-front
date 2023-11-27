@@ -70,11 +70,14 @@ const Layout = ({ children }: LayoutProps) => {
               </Button>
             </div>
           ) : (
-            <>
+            <div>
               <Button $border="1px solid #D3D3D3" $marginRight="8px" onClick={onClickLogOut}>
                 로그아웃
               </Button>
-            </>
+              <Button $background="#f0133a" $color="#fff" onClick={() => navigate('/feed/create')}>
+                글 작성하기
+              </Button>
+            </div>
           )}
         </Header>
       </div>

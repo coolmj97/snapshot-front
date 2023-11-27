@@ -25,10 +25,7 @@ const LoginPage = () => {
   useEffect(() => {
     authService.onAuthStateChanged((user) => {
       if (user) {
-        setIsLoggedIn(true);
         navigate('/feed/list');
-      } else {
-        setIsLoggedIn(false);
       }
     });
   }, []);

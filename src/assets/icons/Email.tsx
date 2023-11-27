@@ -1,4 +1,4 @@
-import { IconProps } from './types/icon.types';
+import { IconProps } from './types/Icon.types';
 
 export const Email = ({ ...args }: IconProps) => {
   return (

@@ -1,17 +1,20 @@
 import { Add } from '@/assets/icons/Add';
+import { ChangeEvent } from 'react';
 import styled from 'styled-components';
 
 interface UploadProps {
-  onChange: () => void;
+  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
-const Upload = () => {
+const Upload = (props: UploadProps) => {
+  const { onChange } = props;
+
   return (
     <>
       <Label htmlFor="file">
         <Add />
       </Label>
-      <UploadInput type="file" id="file" onChange={() => console.log('file upload !!!!!')} />
+      <UploadInput type="file" id="file" onChange={onChange} multiple />
     </>
   );
 };

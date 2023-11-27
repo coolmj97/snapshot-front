@@ -2,12 +2,18 @@ export interface GetAllFeed {
   _id: string;
   photos: string[];
   content: string;
-  thumbnailUrl: string | null;
+  // thumbnailUrl: string | null;
   createdAt: string;
   updatedAt: string;
 }
 
-export interface PostFeedData {
-  photos?: string[];
+export interface FeedDataPayload {
+  user: {
+    username: string;
+    uid: string;
+    email: string;
+    profileImgUrl: string;
+  };
+  photos?: { url: string; id: string }[];
   content?: string;
 }

@@ -1,8 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
-import type { PayloadAction } from '@reduxjs/toolkit';
 
 export interface FeedState {
-  photos: string[];
+  photos: {
+    url: string;
+    id: string;
+  }[];
   content: string;
 }
 
@@ -15,15 +17,22 @@ export const feedSlice = createSlice({
   name: 'feed',
   initialState,
   reducers: {
-    addPhoto: (state, action) => {
-      state.photos = action.payload;
+    setPhoto: (state, action) => {
+      state.photos = [...state.photos, action.payload];
     },
-    addContent: (state, action) => {
+    setContent: (state, action) => {
       state.content = action.payload;
+    },
+    deletePhoto: (state, action) => {
+      const filteredPhotos = state.photos.filter((photo) => photo.id !== action.payload);
+      state.photos = filteredPhotos;
+    },
+    resetForm: (state) => {
+      state = initialState;
     },
   },
 });
 
-export const { addPhoto, addContent } = feedSlice.actions;
+export const { setPhoto, setContent, deletePhoto, resetForm } = feedSlice.actions;
 
 export default feedSlice.reducer;

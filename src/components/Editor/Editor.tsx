@@ -4,7 +4,7 @@ import { EditorPropsType } from './Editor.types';
 import { StyledReactQuill } from './Editor.styles';
 
 const Editor = (props: EditorPropsType) => {
-  const { content, setContent } = props;
+  const { content, onChange } = props;
   const quillRef = useRef(null);
 
   const modules = {
@@ -48,7 +48,7 @@ const Editor = (props: EditorPropsType) => {
       value={content || ''}
       modules={modules}
       formats={formats}
-      onChange={(value) => setContent(value)}
+      onChange={onChange}
     />
   );
 };

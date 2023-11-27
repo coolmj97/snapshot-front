@@ -3,12 +3,14 @@ import styled from 'styled-components';
 import SignUpForm from '../features/signUp/SignUpForm';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store';
-import { FormEvent, useEffect, useMemo, useState } from 'react';
+import { FormEvent, useMemo, useState } from 'react';
 import Modal from '@/components/Modal/Modal';
 import { useNavigate } from 'react-router';
 import { signUpByEmail } from '@/service/auth';
 import { useDispatch } from 'react-redux';
-import { checkRequestError, clearForm } from '@/redux/userSlice';
+import { checkRequestError } from '@/redux/userSlice';
+import { updateProfile } from 'firebase/auth';
+import { resetForm } from '@/redux/feedSlice';
 
 const SignUpPage = () => {
   const user = useSelector((state: RootState) => state.user);
@@ -56,7 +58,15 @@ const SignUpPage = () => {
     };
 
     try {
-      await signUpByEmail(payload);
+      const data = await signUpByEmail(payload);
+      if (data) {
+        updateProfile(data.user, {
+          displayName: username,
+          // photoURL: 'https://example.com/jane-q-user/profile.jpg',
+        });
+      }
+
+      dispatch(resetForm());
       setIsSubmitted(true);
     } catch (e: any) {
       if (e.code.includes('email-already-in-use')) {
@@ -65,10 +75,6 @@ const SignUpPage = () => {
       }
     }
   };
-
-  useEffect(() => {
-    dispatch(clearForm());
-  }, []);
 
   return (
     <>

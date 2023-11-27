@@ -17,12 +17,10 @@ const Router = () => {
         <Route path="/sign-up" element={<SignUpPage />} />
         <Route path="/login" element={<LoginPage />} />
 
-        <Route path="/feed">
-          <Route path="/feed/list" element={<FeedListPage />} />
-          <Route path="/feed/create" element={<FeedCreatePage />} />
-          <Route path="/feed/:id/edit" element={<FeedEditPage />} />
-          <Route path="/feed/:id" element={<FeedDetailPage />} />
-        </Route>
+        <Route path="/feed/list" element={<FeedListPage />} />
+        <Route path="/feed/create" element={<FeedCreatePage />} />
+        <Route path="/feed/:id/edit" element={<FeedEditPage />} />
+        <Route path="/feed/:id" element={<FeedDetailPage />} />
 
         <Route path="/user/setting" element={<UserSettingPage />} />
       </Routes>
