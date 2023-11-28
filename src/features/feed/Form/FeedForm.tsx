@@ -1,13 +1,15 @@
 import { createFeed } from '@/apis/feed/feedApi';
+import { FeedDataPayload } from '@/apis/feed/feedApi.types';
 import { DeleteIcon } from '@/assets/icons/Delete';
-import { Button } from '@/components';
+import { Button, Input } from '@/components';
 import Editor from '@/components/Editor/Editor';
+import Modal from '@/components/Modal/Modal';
 import Upload from '@/components/Upload/Upload';
-import { deletePhoto, resetForm, setContent, setPhoto } from '@/redux/feedSlice';
-import { authService } from '@/service/firebase';
+import { deletePhoto, resetForm, setContent, setPhoto, setTitle } from '@/redux/feedSlice';
+import { auth } from '@/service/firebase';
 import { RootState } from '@/store';
 import axios from 'axios';
-import { ChangeEvent, FormEvent, useRef, useState } from 'react';
+import { ChangeEvent, FormEvent, useMemo, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
@@ -16,14 +18,25 @@ import { v4 as uuidv4 } from 'uuid';
 
 const FeedForm = () => {
   const feed = useSelector((state: RootState) => state.feed);
-  const { photos, content } = feed;
-  console.log('photos', photos);
+  const { title, photos, content } = feed;
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const baseUrl = import.meta.env.VITE_BASE_URL;
 
-  const currentUser = authService.currentUser;
+  const [openModal, setOpenModal] = useState<boolean>(false);
+
+  const currentUser = auth.currentUser;
+
+  const errorMsg = useMemo(() => {
+    if (!title) {
+      return '제목을 입력해주세요.';
+    }
+
+    if (!content) {
+      return '글을 입력해주세요.';
+    }
+  }, [title, content]);
 
   const onUpload = async (e: ChangeEvent<HTMLInputElement>) => {
     if (photos.length === 5) {
@@ -53,13 +66,18 @@ const FeedForm = () => {
 
         dispatch(setPhoto({ url: data.url, id: uuidv4() }));
       } catch (e) {
-        console.log(e);
+        alert('알 수 없는 오류가 발생했습니다.');
       }
     }
   };
 
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    if (errorMsg) {
+      setOpenModal(true);
+      return;
+    }
 
     if (currentUser) {
       const userInfo = {
@@ -69,8 +87,10 @@ const FeedForm = () => {
         profileImgUrl: currentUser?.photoURL ?? '',
       };
 
-      const payload = {
+      const payload: FeedDataPayload = {
         user: userInfo,
+        uid: userInfo.uid,
+        title,
         photos,
         content,
       };
@@ -91,6 +111,18 @@ const FeedForm = () => {
     <div>
       <form onSubmit={(e) => onSubmit(e)}>
         <Box>
+          <Label htmlFor="title">제목</Label>
+          <Input
+            id="title"
+            placeholder="제목"
+            value={title}
+            onChange={(e) => dispatch(setTitle(e.target.value))}
+            fullWidth
+          />
+        </Box>
+
+        <Box>
+          {/* 사진 지우고 다시 올렸을 때 안 올라가는 이슈 */}
           <Label>사진 (최대 5장)</Label>
 
           <div
@@ -121,6 +153,8 @@ const FeedForm = () => {
           등록
         </Button>
       </form>
+
+      <Modal content={errorMsg} $visible={openModal} onClose={() => setOpenModal(false)} />
     </div>
   );
 };
@@ -166,12 +200,13 @@ const DeleteButton = styled.div`
 const Box = styled.div`
   margin-bottom: 48px;
 
-  &:not(:first-child) {
+  &:last-child {
     margin-bottom: 0;
   }
 `;
 
-const Label = styled.div`
+const Label = styled.label`
+  display: block;
   margin-bottom: 16px;
   font-size: 1.2rem;
 `;

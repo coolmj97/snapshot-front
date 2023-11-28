@@ -1,17 +1,28 @@
+import { findAllFeed } from '@/apis/feed/feedApi';
 import { Layout, Title } from '@/components';
 import ListCard from '@/features/feed/List/ListCard';
-import { generatePath, useNavigate } from 'react-router';
+import { useQuery } from '@tanstack/react-query';
 import styled from 'styled-components';
 
 const FeedListPage = () => {
-  const navigate = useNavigate();
+  const getFeeds = async () => {
+    const { data } = await findAllFeed();
+    return data;
+  };
+
+  const { data: feeds } = useQuery({
+    queryKey: ['fetchFeeds'],
+    queryFn: () => getFeeds(),
+  });
 
   return (
     <Layout>
       <Box>
-        <Title title="피드"></Title>
+        <Title title="피드" />
         <CardContainer>
-          <ListCard />
+          {feeds?.map((feed) => {
+            return <ListCard key={feed._id} data={feed} />;
+          })}
         </CardContainer>
       </Box>
     </Layout>

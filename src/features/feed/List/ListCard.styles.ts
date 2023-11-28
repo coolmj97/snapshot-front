@@ -9,7 +9,7 @@ export const Card = styled.div`
   display: flex;
   align-items: center;
   cursor: pointer;
-  background: #fff;
+  position: relative;
 
   &:hover {
     filter: brightness(90%);
@@ -29,7 +29,11 @@ export const Img = styled.img`
 `;
 
 export const Text = styled.div`
-  margin: 8px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;

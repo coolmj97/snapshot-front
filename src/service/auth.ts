@@ -6,7 +6,7 @@ import {
   signInWithEmailAndPassword,
   signInWithPopup,
 } from 'firebase/auth';
-import { authService } from './firebase';
+import { auth } from './firebase';
 import { UserFormData } from '@/apis/user/userApi.types';
 
 const provider = new GoogleAuthProvider();
@@ -14,22 +14,22 @@ const provider = new GoogleAuthProvider();
 //이메일로 회원가입 및 로그인
 export const signUpByEmail = async (payload: UserFormData) => {
   const { email, password } = payload;
-  await setPersistence(authService, browserSessionPersistence);
-  const data = await createUserWithEmailAndPassword(authService, email, password);
+  await setPersistence(auth, browserSessionPersistence);
+  const data = await createUserWithEmailAndPassword(auth, email, password);
   return data;
 };
 
 //이메일로 로그인
 export const loginByEmail = async (payload: any) => {
   const { email, password } = payload;
-  await setPersistence(authService, browserSessionPersistence);
-  const data = await signInWithEmailAndPassword(authService, email, password);
+  await setPersistence(auth, browserSessionPersistence);
+  const data = await signInWithEmailAndPassword(auth, email, password);
   return data;
 };
 
 //구글로 로그인
 export const loginByGoogle = async () => {
-  await setPersistence(authService, browserSessionPersistence);
-  const data = await signInWithPopup(authService, provider);
+  await setPersistence(auth, browserSessionPersistence);
+  const data = await signInWithPopup(auth, provider);
   return data;
 };

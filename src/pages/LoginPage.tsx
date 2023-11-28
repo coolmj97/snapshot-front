@@ -6,13 +6,12 @@ import { useEffect, useState } from 'react';
 import { loginByGoogle } from '@/service/auth';
 import { Email } from '@/assets/icons/Email';
 import { GoogleLogo } from '@/assets/icons/GoogleLogo';
-import { authService } from '@/service/firebase';
+import { auth } from '@/service/firebase';
 
 const LoginPage = () => {
   const navigate = useNavigate();
 
   const [isLoginByEmail, setIsLoginByEmail] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const onLoginWithGoogle = async () => {
     try {
@@ -23,7 +22,7 @@ const LoginPage = () => {
   };
 
   useEffect(() => {
-    authService.onAuthStateChanged((user) => {
+    auth.onAuthStateChanged((user) => {
       if (user) {
         navigate('/feed/list');
       }

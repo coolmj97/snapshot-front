@@ -43,7 +43,8 @@ const LoginForm = () => {
         email,
         password,
       };
-      const data = await loginByEmail(payload);
+      await loginByEmail(payload);
+
       navigate('/feed/list');
     } catch (e) {
       console.log(e);

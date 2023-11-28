@@ -2,7 +2,7 @@ import { ReactNode, useEffect, useState } from 'react';
 import { Header } from './Layout.styles';
 import { Button } from '..';
 import { useNavigate } from 'react-router';
-import { authService } from '@/service/firebase';
+import { auth } from '@/service/firebase';
 
 interface LayoutProps {
   children: ReactNode;
@@ -15,13 +15,13 @@ const Layout = ({ children }: LayoutProps) => {
   const navigate = useNavigate();
 
   const onClickLogOut = () => {
-    authService.signOut();
+    auth.signOut();
     setIsLoggedIn(false);
     navigate('/');
   };
 
   const checkCurrentUser = () => {
-    authService.onAuthStateChanged((user) => {
+    auth.onAuthStateChanged((user) => {
       if (user) {
         setIsLoggedIn(true);
       } else {
