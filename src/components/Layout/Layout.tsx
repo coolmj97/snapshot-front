@@ -17,7 +17,7 @@ const Layout = ({ children }: LayoutProps) => {
   const onClickLogOut = () => {
     auth.signOut();
     setIsLoggedIn(false);
-    navigate('/');
+    navigate('/intro');
   };
 
   const checkCurrentUser = () => {
@@ -46,7 +46,7 @@ const Layout = ({ children }: LayoutProps) => {
       >
         <Header>
           <div
-            onClick={() => navigate('/')}
+            onClick={() => navigate('/intro')}
             style={{
               cursor: 'pointer',
             }}
