@@ -27,7 +27,7 @@ const LoginPage = () => {
         navigate('/feed/list');
       }
     });
-  }, []);
+  }, [auth]);
 
   return (
     <>

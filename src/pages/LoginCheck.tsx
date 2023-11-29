@@ -1,8 +1,19 @@
-import { Navigate, Outlet } from 'react-router';
+import { Outlet, useNavigate } from 'react-router';
 import { auth } from '@/service/firebase';
+import { useEffect } from 'react';
 
 const LoginCheck = () => {
-  return auth.currentUser ? <Outlet /> : <Navigate to="/login" />;
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    auth.onAuthStateChanged((user) => {
+      if (!user) {
+        navigate('/login');
+      }
+    });
+  }, [auth]);
+
+  return <Outlet />;
 };
 
 export default LoginCheck;
