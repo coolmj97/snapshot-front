@@ -4,4 +4,5 @@ export type ListDataType = GetAllFeed;
 export interface ListCardProps {
   data: ListDataType;
   onClick?: () => void;
+  hasImg: boolean;
 }

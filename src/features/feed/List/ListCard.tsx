@@ -2,13 +2,18 @@ import { Card, Img, Text } from './ListCard.styles';
 import { ListCardProps } from './ListCard.types';
 
 const ListCard = (props: ListCardProps) => {
-  const { onClick, data } = props;
+  const { onClick, data, hasImg } = props;
 
   return (
-    <Card onClick={onClick}>
-      {data.photos?.length ? <Img src={data.photos[0]?.url} /> : null}
+    <div>
+      <Card onClick={onClick}>
+        <Img
+          src={hasImg ? data.photos[0]?.url : '/src/assets/logo-gray.png'}
+          className={hasImg ? '' : 'empty-image'}
+        />
+      </Card>
       <Text>{data.title}</Text>
-    </Card>
+    </div>
   );
 };
 

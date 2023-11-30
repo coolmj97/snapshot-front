@@ -3,6 +3,7 @@ import styled from 'styled-components';
 export const Card = styled.div`
   width: 300px;
   height: 300px;
+  margin: 48px 0;
   border: 1px solid #d3d3d3;
   border-radius: 20px;
   text-align: center;
@@ -10,10 +11,7 @@ export const Card = styled.div`
   align-items: center;
   cursor: pointer;
   position: relative;
-
-  &:hover {
-    filter: brightness(90%);
-  }
+  margin-bottom: 24px;
 
   @media (max-width: 576px) {
     width: 100px;
@@ -26,17 +24,25 @@ export const Img = styled.img`
   height: 100%;
   object-fit: cover;
   border-radius: 20px;
+
+  &.empty-image {
+    width: 50%;
+    height: 50%;
+    object-fit: contain;
+    margin: 0 auto;
+  }
+
+  &:hover {
+    filter: brightness(90%);
+  }
 `;
 
 export const Text = styled.div`
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-
+  font-size: 0.9rem;
+  text-align: center;
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
-  -webkit-line-clamp: 3;
+  -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
 `;

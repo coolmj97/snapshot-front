@@ -21,7 +21,9 @@ const FeedListPage = () => {
         <Title title="피드" />
         <CardContainer>
           {feeds?.map((feed) => {
-            return <ListCard key={feed._id} data={feed} />;
+            const hasImg = feed.photos.length ? true : false;
+
+            return <ListCard key={feed._id} data={feed} hasImg={hasImg} />;
           })}
         </CardContainer>
       </Box>
