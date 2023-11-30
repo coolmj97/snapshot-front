@@ -14,7 +14,7 @@ const Upload = (props: UploadProps) => {
       <Label htmlFor="file">
         <Add />
       </Label>
-      <UploadInput type="file" id="file" onChange={onChange} multiple />
+      <UploadInput type="file" id="file" accept="image/*" onChange={onChange} multiple />
     </>
   );
 };

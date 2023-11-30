@@ -26,7 +26,8 @@ export const feedSlice = createSlice({
       state.photos = [...state.photos, action.payload];
     },
     setContent: (state, action) => {
-      state.content = action.payload;
+      const finalContent = action.payload.replace('<p><br></p>', '');
+      state.content = finalContent;
     },
     deletePhoto: (state, action) => {
       const filteredPhotos = state.photos.filter((photo) => photo.id !== action.payload);

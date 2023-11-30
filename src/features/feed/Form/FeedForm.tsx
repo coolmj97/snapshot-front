@@ -49,14 +49,6 @@ const FeedForm = () => {
 
     for (let i = 0; i < fileList.length; i++) {
       const file = fileList[i];
-      const extension = file.name.split('.')[1];
-
-      const isImg = extension === 'jpg' || 'png' || 'jpeg';
-
-      if (!isImg) {
-        alert('jpg, png, jpeg 파일만 업로드 가능합니다.');
-        return;
-      }
 
       const formData = new FormData();
       formData.append('file', file);
@@ -69,6 +61,8 @@ const FeedForm = () => {
         alert('알 수 없는 오류가 발생했습니다.');
       }
     }
+
+    e.target.value = '';
   };
 
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -92,7 +86,7 @@ const FeedForm = () => {
         uid: userInfo.uid,
         title,
         photos,
-        content,
+        content: content.replace('<p><br></p>', ''),
       };
 
       try {
@@ -122,7 +116,6 @@ const FeedForm = () => {
         </Box>
 
         <Box>
-          {/* 사진 지우고 다시 올렸을 때 안 올라가는 이슈 */}
           <Label>사진 (최대 5장)</Label>
 
           <div
@@ -149,7 +142,7 @@ const FeedForm = () => {
           <Editor content={content} onChange={(value) => dispatch(setContent(value))} />
         </Box>
 
-        <Button type="submit" $background="#f0133a" $color="#fff" $marginTop="48px" $fullWidth>
+        <Button type="submit" $background="#f0133a" $color="#fff" $fullWidth>
           등록
         </Button>
       </form>
