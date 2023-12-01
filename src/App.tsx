@@ -2,6 +2,7 @@ import Router from './routes';
 import GlobalStyle from './GlobalStyle';
 import { Provider } from 'react-redux';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import store from './store';
 import 'dayjs/locale/ko';
 import dayjs from 'dayjs';
@@ -14,6 +15,7 @@ function App() {
   return (
     <Provider store={store}>
       <QueryClientProvider client={queryClient}>
+        <ReactQueryDevtools initialIsOpen={false} />
         <GlobalStyle />
         <Router />
       </QueryClientProvider>

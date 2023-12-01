@@ -1,4 +1,4 @@
-import { ReactNode, useState } from 'react';
+import { ReactNode } from 'react';
 import { createPortal } from 'react-dom';
 import { Button } from '..';
 import { Dim, ModalDesc, ModalTitle, StyledModal } from './Modal.styles';
@@ -7,10 +7,11 @@ interface ModalProps {
   content: ReactNode | string;
   $visible: boolean;
   onClose?: () => void;
+  footer?: ReactNode;
 }
 
 const Modal = (props: ModalProps) => {
-  const { content, $visible, onClose } = props;
+  const { content, $visible, onClose, footer } = props;
 
   const modal = document.querySelector('#modal') as HTMLElement;
 
@@ -27,9 +28,11 @@ const Modal = (props: ModalProps) => {
               justifyContent: 'end',
             }}
           >
-            <Button $background="#f0133a" $color="#fff" onClick={onClose}>
-              확인
-            </Button>
+            {footer ?? (
+              <Button $background="#f0133a" $color="#fff" onClick={onClose}>
+                확인
+              </Button>
+            )}
           </div>
         </div>
       </StyledModal>

@@ -1,24 +1,26 @@
-import { findOneByFeedId } from '@/apis/feed/feedApi';
+import { deleteFeed, findOneByFeedId } from '@/apis/feed/feedApi';
 import { MenuDot } from '@/assets/icons/MenuDot';
-import { Carousel, Layout } from '@/components';
+import { Button, Carousel, Layout } from '@/components';
 import { useQuery } from '@tanstack/react-query';
-import { useParams } from 'react-router';
+import { generatePath, useNavigate, useParams } from 'react-router';
 import styled from 'styled-components';
 import Dompurify from 'dompurify';
 import Menu from '@/components/Menu/Menu';
 import { MenuListType } from '@/components/Menu/Menu.types';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { MenuBox } from '@/components/Menu/Menu.styles';
 import Profile from '@/components/Profile/Profile';
+import Modal from '@/components/Modal/Modal';
 
 const FeedDetailPage = () => {
   const params = useParams();
+  const navigate = useNavigate();
+  const id = params.id ?? '';
 
   const [openMenu, setOpenMenu] = useState(false);
+  const [openModal, setOpenModal] = useState<boolean>(false);
 
   const getFeedById = async () => {
-    const id = params.id ?? '';
-
     const { data } = await findOneByFeedId(id);
     return data;
   };
@@ -28,14 +30,27 @@ const FeedDetailPage = () => {
     queryFn: () => getFeedById(),
   });
 
+  const onDelete = async () => {
+    try {
+      await deleteFeed(id);
+      navigate('/feed/list');
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   const menuList: MenuListType[] = [
     {
       name: '수정',
-      onClick: () => {},
+      onClick: () => {
+        navigate(`/feed/${id}/edit`);
+      },
     },
     {
       name: '삭제',
-      onClick: () => {},
+      onClick: () => {
+        setOpenModal(true);
+      },
     },
   ];
 
@@ -74,6 +89,21 @@ const FeedDetailPage = () => {
           />
         )}
       </Box>
+
+      <Modal
+        $visible={openModal}
+        content={'정말 삭제하시겠습니까?'}
+        footer={
+          <>
+            <Button $background="#f0133a" $color="#fff" $marginRight="8px" onClick={onDelete}>
+              네
+            </Button>
+            <Button $border="1px solid #D3D3D3" onClick={() => setOpenModal(false)}>
+              아니오
+            </Button>
+          </>
+        }
+      />
     </Layout>
   );
 };

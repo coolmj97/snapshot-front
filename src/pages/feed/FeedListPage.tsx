@@ -1,12 +1,15 @@
 import { findAllFeed } from '@/apis/feed/feedApi';
 import { Layout, Title } from '@/components';
 import ListCard from '@/features/feed/List/ListCard';
+import { auth } from '@/service/firebase';
 import { useQuery } from '@tanstack/react-query';
+import { useEffect, useState } from 'react';
 import { generatePath, useNavigate } from 'react-router';
 import styled from 'styled-components';
 
 const FeedListPage = () => {
   const navigate = useNavigate();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const getFeeds = async () => {
     const { data } = await findAllFeed();
@@ -14,9 +17,20 @@ const FeedListPage = () => {
   };
 
   const { data: feeds } = useQuery({
-    queryKey: ['fetchFeeds'],
+    queryKey: ['fetchFeeds', isLoggedIn],
     queryFn: () => getFeeds(),
+    enabled: isLoggedIn,
   });
+
+  useEffect(() => {
+    auth.onAuthStateChanged((user) => {
+      if (user) {
+        setIsLoggedIn(true);
+      } else {
+        setIsLoggedIn(false);
+      }
+    });
+  }, []);
 
   return (
     <Layout>
