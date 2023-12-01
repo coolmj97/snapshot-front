@@ -3,4 +3,5 @@ import { CSSProperties } from 'react';
 export interface IconProps {
   style?: CSSProperties;
   size?: number;
+  color?: string;
 }

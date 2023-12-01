@@ -5,12 +5,14 @@ import 'slick-carousel/slick/slick-theme.css';
 import styled from 'styled-components';
 import { PrevArrow } from '@/assets/icons/PrevArrow';
 import { NextArrow } from '@/assets/icons/NextArrow';
+import { FeedDataPhotos } from '@/apis/feed/feedApi.types';
 
 interface CarouselProps {
-  data: string[];
+  data?: FeedDataPhotos[];
 }
 
-const Carousel = () => {
+const Carousel = (props: CarouselProps) => {
+  const { data } = props;
   const slickRef = useRef<any>(null);
 
   const onClickPrev = useCallback(() => slickRef.current.slickPrev(), []);
@@ -45,12 +47,9 @@ const Carousel = () => {
 
   return (
     <CustomSlider {...settings} ref={slickRef}>
-      <Img src="https://kmj-test-bucket.s3.ap-northeast-2.amazonaws.com/KakaoTalk_Photo_2023-11-13-15-25-47.jpeg" />
-      <Img src="https://kmj-test-bucket.s3.ap-northeast-2.amazonaws.com/test-image.jpeg" />
-      <Img src="https://kmj-test-bucket.s3.ap-northeast-2.amazonaws.com/KakaoTalk_Photo_2023-11-13-15-25-47.jpeg" />
-      <Img src="https://kmj-test-bucket.s3.ap-northeast-2.amazonaws.com/KakaoTalk_Photo_2023-11-13-15-25-47.jpeg" />
-      <Img src="https://kmj-test-bucket.s3.ap-northeast-2.amazonaws.com/test-image.jpeg" />
-      <Img src="https://kmj-test-bucket.s3.ap-northeast-2.amazonaws.com/KakaoTalk_Photo_2023-11-13-15-25-47.jpeg" />
+      {data?.map((e) => {
+        return <Img key={e.id} src={e.url} />;
+      })}
     </CustomSlider>
   );
 };
@@ -58,9 +57,11 @@ const Carousel = () => {
 export default Carousel;
 
 const CustomSlider = styled(Slider)`
-  width: 500px;
+  width: 100%;
   position: relative;
   border-radius: 20px;
+  border: 1px solid #d3d3d3;
+  padding: 40px 0;
 
   .slick-prev {
     left: 0;

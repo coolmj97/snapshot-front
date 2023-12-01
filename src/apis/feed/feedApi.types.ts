@@ -27,3 +27,18 @@ export interface FeedDataPhotos {
   url: string;
   id: string;
 }
+
+export interface GetFeedById {
+  user: FeedDataUser;
+  title: string;
+  photos: FeedDataPhotos[];
+  content: string;
+  uid: string;
+  createdAt: string;
+  updatedAt: string;
+  _id: string;
+}
+
+export interface FeedParams {
+  id: string;
+}

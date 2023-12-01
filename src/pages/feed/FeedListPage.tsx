@@ -2,9 +2,12 @@ import { findAllFeed } from '@/apis/feed/feedApi';
 import { Layout, Title } from '@/components';
 import ListCard from '@/features/feed/List/ListCard';
 import { useQuery } from '@tanstack/react-query';
+import { generatePath, useNavigate } from 'react-router';
 import styled from 'styled-components';
 
 const FeedListPage = () => {
+  const navigate = useNavigate();
+
   const getFeeds = async () => {
     const { data } = await findAllFeed();
     return data;
@@ -23,7 +26,19 @@ const FeedListPage = () => {
           {feeds?.map((feed) => {
             const hasImg = feed.photos.length ? true : false;
 
-            return <ListCard key={feed._id} data={feed} hasImg={hasImg} />;
+            return (
+              <ListCard
+                key={feed._id}
+                data={feed}
+                hasImg={hasImg}
+                onClick={() => {
+                  const path = generatePath('/feed/:id', {
+                    id: feed._id,
+                  });
+                  navigate(path);
+                }}
+              />
+            );
           })}
         </CardContainer>
       </Box>
