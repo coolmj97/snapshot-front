@@ -1,5 +1,5 @@
 import createAxios from '@/utils/createAxios';
-import { FeedDataPayload, FeedParams, GetAllFeed, GetFeedById } from './feedApi.types';
+import { FeedDataPayload, GetAllFeed, GetFeedById } from './feedApi.types';
 
 //피드 목록 조회
 export const findAllFeed = () => {
@@ -17,8 +17,8 @@ export const findOneByFeedId = (id: string) => {
 };
 
 //피드 수정
-export const updateFeed = (id: string) => {
-  return createAxios().patch(`/feeds/${id}`);
+export const updateFeed = (id: string, payload: FeedDataPayload) => {
+  return createAxios().patch(`/feeds/${id}`, payload);
 };
 
 //피드 삭제

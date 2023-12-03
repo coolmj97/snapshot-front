@@ -13,7 +13,7 @@ export interface FeedDataPayload {
   uid: string;
   title: string;
   photos?: FeedDataPhotos[];
-  content: string;
+  content?: string;
 }
 
 export interface FeedDataUser {

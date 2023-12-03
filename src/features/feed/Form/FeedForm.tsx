@@ -1,4 +1,4 @@
-import { createFeed } from '@/apis/feed/feedApi';
+import { createFeed, updateFeed } from '@/apis/feed/feedApi';
 import { FeedDataPayload } from '@/apis/feed/feedApi.types';
 import { DeleteIcon } from '@/assets/icons/Delete';
 import { Button, Input } from '@/components';
@@ -12,31 +12,41 @@ import axios from 'axios';
 import { ChangeEvent, FormEvent, useMemo, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
-import { useNavigate } from 'react-router';
-import styled from 'styled-components';
+import { useNavigate, useParams } from 'react-router';
 import { v4 as uuidv4 } from 'uuid';
+import { Box, DeleteButton, Img, ImgBox, Label } from './FeedForm.styles';
+import { FeedFormProps, Mode } from './FeedForm.types';
 
-const FeedForm = () => {
+const FeedForm = (props: FeedFormProps) => {
+  const { mode } = props;
   const feed = useSelector((state: RootState) => state.feed);
   const { title, photos, content } = feed;
+
+  const params = useParams();
+  const id = params.id ?? '';
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const baseUrl = import.meta.env.VITE_BASE_URL;
 
   const [openModal, setOpenModal] = useState<boolean>(false);
+  const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
 
   const currentUser = auth.currentUser;
 
-  const errorMsg = useMemo(() => {
+  const modalMsg = useMemo(() => {
     if (!title) {
       return '제목을 입력해주세요.';
     }
 
-    if (!content) {
-      return '글을 입력해주세요.';
+    if (isSubmitted) {
+      if (mode === Mode.Create) {
+        return '피드가 등록되었습니다.';
+      } else {
+        return '피드가 수정되었습니다.';
+      }
     }
-  }, [title, content]);
+  }, [title, isSubmitted, mode]);
 
   const onUpload = async (e: ChangeEvent<HTMLInputElement>) => {
     if (photos.length === 5) {
@@ -68,7 +78,7 @@ const FeedForm = () => {
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (errorMsg) {
+    if (modalMsg) {
       setOpenModal(true);
       return;
     }
@@ -86,15 +96,20 @@ const FeedForm = () => {
         uid: userInfo.uid,
         title,
         photos,
-        content: content.replace('<p><br></p>', ''),
+        content,
       };
 
       try {
-        await createFeed(payload);
+        if (mode === Mode.Create) {
+          await createFeed(payload);
+        }
 
-        dispatch(resetForm());
-        alert('피드가 등록되었습니다.');
-        navigate('/feed/list');
+        if (mode === Mode.Edit) {
+          await updateFeed(id, payload);
+        }
+
+        setOpenModal(true);
+        setIsSubmitted(true);
       } catch (e: any) {
         console.log(e);
       }
@@ -111,7 +126,7 @@ const FeedForm = () => {
             placeholder="제목"
             value={title}
             onChange={(e) => dispatch(setTitle(e.target.value))}
-            fullWidth
+            $fullWidth
           />
         </Box>
 
@@ -126,7 +141,7 @@ const FeedForm = () => {
             {photos.map((photo) => {
               return (
                 <ImgBox key={photo.id}>
-                  <Img src={photo.url} />
+                  <Img key={photo.id} src={photo.url} />
                   <DeleteButton onClick={() => dispatch(deletePhoto(photo.id))}>
                     <DeleteIcon />
                   </DeleteButton>
@@ -143,63 +158,21 @@ const FeedForm = () => {
         </Box>
 
         <Button type="submit" $background="#f0133a" $color="#fff" $fullWidth>
-          등록
+          {mode === Mode.Create ? '등록' : '수정'}
         </Button>
       </form>
 
-      <Modal content={errorMsg} $visible={openModal} onClose={() => setOpenModal(false)} />
+      <Modal
+        content={modalMsg}
+        $visible={openModal}
+        onClose={() => {
+          setOpenModal(false);
+          navigate('/feed/list');
+          dispatch(resetForm());
+        }}
+      />
     </div>
   );
 };
 
 export default FeedForm;
-
-const ImgBox = styled.div`
-  width: 100px;
-  height: 100px;
-  margin-right: 16px;
-  border-radius: 20px;
-  position: relative;
-  cursor: pointer;
-
-  &:hover {
-    opacity: 0.6;
-    background: rgb(0, 0, 0, 0.5);
-  }
-`;
-
-const Img = styled.img`
-  width: 100%;
-  height: 100%;
-  border-radius: 20px;
-  border: 1px solid #d3d3d3;
-  object-fit: cover;
-`;
-
-const DeleteButton = styled.div`
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  visibility: hidden;
-  cursor: pointer;
-  opacity: 1;
-
-  ${ImgBox}:hover & {
-    visibility: visible;
-  }
-`;
-
-const Box = styled.div`
-  margin-bottom: 48px;
-
-  &:last-child {
-    margin-bottom: 0;
-  }
-`;
-
-const Label = styled.label`
-  display: block;
-  margin-bottom: 16px;
-  font-size: 1.2rem;
-`;

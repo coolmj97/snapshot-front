@@ -3,7 +3,7 @@ import styled, { css } from 'styled-components';
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   width?: string;
-  fullWidth?: boolean;
+  $fullWidth?: boolean;
   marginTop?: string;
   marginRight?: string;
   marginBottom?: string;
@@ -13,7 +13,7 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
 
 const fullWidthStyle = css<InputProps>`
   ${(props) =>
-    props.fullWidth &&
+    props.$fullWidth &&
     css`
       width: 100%;
       justify-content: center;
@@ -46,10 +46,10 @@ const StyledInput = styled.input<InputProps>`
   }
 `;
 
-const Input: React.FC<InputProps> = ({ children, fullWidth, ...rest }) => {
+const Input: React.FC<InputProps> = ({ children, $fullWidth, ...rest }) => {
   return (
     <>
-      <StyledInput fullWidth={fullWidth} {...rest}>
+      <StyledInput $fullWidth={$fullWidth} {...rest}>
         {children}
       </StyledInput>
     </>

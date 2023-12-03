@@ -60,8 +60,6 @@ const CustomSlider = styled(Slider)`
   width: 100%;
   position: relative;
   border-radius: 20px;
-  border: 1px solid #d3d3d3;
-  padding: 40px 0;
 
   .slick-prev {
     left: 0;
@@ -84,8 +82,14 @@ const PrevArrowBox = styled.div`
   left: 0;
   transform: translateY(-50%);
   z-index: 10;
-
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
   cursor: pointer;
+
+  &:hover {
+    background: #fff;
+    opacity: 0.65;
+  }
 `;
 
 const NextArrowBox = styled.div`
@@ -94,6 +98,12 @@ const NextArrowBox = styled.div`
   right: 0;
   transform: translateY(-50%);
   z-index: 10;
-
+  border-top-left-radius: 4px;
+  border-bottom-left-radius: 4px;
   cursor: pointer;
+
+  &:hover {
+    background: #fff;
+    opacity: 0.65;
+  }
 `;

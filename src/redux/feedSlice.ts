@@ -1,11 +1,9 @@
+import { FeedDataPhotos } from '@/apis/feed/feedApi.types';
 import { createSlice } from '@reduxjs/toolkit';
 
 export interface FeedState {
   title: string;
-  photos: {
-    url: string;
-    id: string;
-  }[];
+  photos: FeedDataPhotos[];
   content: string;
 }
 
@@ -26,8 +24,10 @@ export const feedSlice = createSlice({
       state.photos = [...state.photos, action.payload];
     },
     setContent: (state, action) => {
-      const finalContent = action.payload.replace('<p><br></p>', '');
-      state.content = finalContent;
+      state.content = action.payload;
+    },
+    initPhoto: (state, action) => {
+      state.photos = action.payload;
     },
     deletePhoto: (state, action) => {
       const filteredPhotos = state.photos.filter((photo) => photo.id !== action.payload);
@@ -37,6 +37,7 @@ export const feedSlice = createSlice({
   },
 });
 
-export const { setTitle, setPhoto, setContent, deletePhoto, resetForm } = feedSlice.actions;
+export const { setTitle, setPhoto, setContent, initPhoto, deletePhoto, resetForm } =
+  feedSlice.actions;
 
 export default feedSlice.reducer;

@@ -1,12 +1,15 @@
-export const NextArrow = () => {
+import { IconProps } from './types/Icon.types';
+
+export const NextArrow = ({ color, ...args }: IconProps) => {
   return (
     <svg
-      fill="#EDEDED"
+      fill={color || '#363636'}
       width="64px"
       height="64px"
       viewBox="-22.4 -22.4 76.80 76.80"
       version="1.1"
       xmlns="http://www.w3.org/2000/svg"
+      {...args}
     >
       <g id="SVGRepo_bgCarrier" strokeWidth="0" />
 

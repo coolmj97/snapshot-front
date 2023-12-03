@@ -2,23 +2,25 @@ import { deleteFeed, findOneByFeedId } from '@/apis/feed/feedApi';
 import { MenuDot } from '@/assets/icons/MenuDot';
 import { Button, Carousel, Layout } from '@/components';
 import { useQuery } from '@tanstack/react-query';
-import { generatePath, useNavigate, useParams } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 import styled from 'styled-components';
 import Dompurify from 'dompurify';
 import Menu from '@/components/Menu/Menu';
 import { MenuListType } from '@/components/Menu/Menu.types';
-import { useMemo, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { MenuBox } from '@/components/Menu/Menu.styles';
 import Profile from '@/components/Profile/Profile';
 import Modal from '@/components/Modal/Modal';
 
 const FeedDetailPage = () => {
-  const params = useParams();
   const navigate = useNavigate();
+  const params = useParams();
   const id = params.id ?? '';
 
   const [openMenu, setOpenMenu] = useState(false);
   const [openModal, setOpenModal] = useState<boolean>(false);
+
+  const dropdownRef = useRef<any>(null);
 
   const getFeedById = async () => {
     const { data } = await findOneByFeedId(id);
@@ -26,8 +28,9 @@ const FeedDetailPage = () => {
   };
 
   const { data: feed } = useQuery({
-    queryKey: ['getFeedById'],
+    queryKey: ['getFeedById', id],
     queryFn: () => getFeedById(),
+    enabled: !!id,
   });
 
   const onDelete = async () => {
@@ -53,6 +56,16 @@ const FeedDetailPage = () => {
       },
     },
   ];
+
+  const onBlur = (event: MouseEvent) => {
+    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+      setOpenMenu(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener('mousedown', onBlur);
+  }, []);
 
   if (!feed) {
     return <></>;

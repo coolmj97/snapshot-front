@@ -3,7 +3,7 @@ import { IconProps } from './types/Icon.types';
 export const PrevArrow = ({ color, ...args }: IconProps) => {
   return (
     <svg
-      fill={color || '#EDEDED'}
+      fill={color || '#363636'}
       width="64px"
       height="64px"
       viewBox="-22.4 -22.4 76.80 76.80"

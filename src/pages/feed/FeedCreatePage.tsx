@@ -1,12 +1,13 @@
 import { Layout } from '@/components';
 import FeedForm from '@/features/feed/Form/FeedForm';
+import { Mode } from '@/features/feed/Form/FeedForm.types';
 import styled from 'styled-components';
 
 const FeedCreatePage = () => {
   return (
     <Layout>
       <Box>
-        <FeedForm />
+        <FeedForm mode={Mode.Create} />
       </Box>
     </Layout>
   );

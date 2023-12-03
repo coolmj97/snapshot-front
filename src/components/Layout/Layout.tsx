@@ -1,4 +1,4 @@
-import { ReactNode, useEffect, useState } from 'react';
+import { ReactNode, useEffect, useRef, useState } from 'react';
 import { Header } from './Layout.styles';
 import { Button } from '..';
 import { useNavigate } from 'react-router';
@@ -22,23 +22,12 @@ const Layout = ({ children }: LayoutProps) => {
 
   const navigate = useNavigate();
 
+  const dropdownRef = useRef<any>(null);
+
   const onClickLogOut = () => {
     auth.signOut();
     setIsLoggedIn(false);
     navigate('/intro');
-  };
-
-  const checkCurrentUser = () => {
-    auth.onAuthStateChanged((user) => {
-      if (user) {
-        console.log('user', user);
-        setIsLoggedIn(true);
-        setCurrentUser(user);
-      } else {
-        setIsLoggedIn(false);
-      }
-      setIsLoading(true);
-    });
   };
 
   const menuList: MenuListType[] = [
@@ -52,8 +41,27 @@ const Layout = ({ children }: LayoutProps) => {
     },
   ];
 
+  const onBlur = (event: MouseEvent) => {
+    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+      setOpenMenu(false);
+    }
+  };
+
+  const checkCurrentUser = () => {
+    auth.onAuthStateChanged((user) => {
+      if (user) {
+        setIsLoggedIn(true);
+        setCurrentUser(user);
+      } else {
+        setIsLoggedIn(false);
+      }
+      setIsLoading(true);
+    });
+  };
+
   useEffect(() => {
     checkCurrentUser();
+    document.addEventListener('mousedown', onBlur);
   }, []);
 
   if (!isLoading) return <></>;
@@ -99,15 +107,30 @@ const Layout = ({ children }: LayoutProps) => {
               </Button>
             </div>
           ) : (
-            <MenuBox>
-              <Profile
-                url={currentUser?.photoURL ?? ''}
-                name={currentUser?.displayName ?? ''}
-                onlyImg
-                onClick={() => setOpenMenu(!openMenu)}
-              />
-              {openMenu && <Menu list={menuList} $top={50} />}
-            </MenuBox>
+            <div
+              style={{
+                display: 'flex',
+              }}
+            >
+              <Button
+                $background="#f0133a"
+                $color="#fff"
+                $marginRight="16px"
+                onClick={() => navigate('/feed/create')}
+              >
+                글 작성하기
+              </Button>
+
+              <MenuBox ref={dropdownRef}>
+                <Profile
+                  url={currentUser?.photoURL ?? ''}
+                  name={currentUser?.displayName ?? ''}
+                  onlyImg
+                  onClick={() => setOpenMenu(!openMenu)}
+                />
+                {openMenu && <Menu list={menuList} $top={50} />}
+              </MenuBox>
+            </div>
           )}
         </Header>
       </div>
