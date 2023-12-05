@@ -4,17 +4,18 @@ import styled from 'styled-components';
 
 interface UploadProps {
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  mutiple?: boolean;
 }
 
 const Upload = (props: UploadProps) => {
-  const { onChange } = props;
+  const { onChange, mutiple } = props;
 
   return (
     <>
       <Label htmlFor="file">
         <Add />
       </Label>
-      <UploadInput type="file" id="file" accept="image/*" onChange={onChange} multiple />
+      <UploadInput type="file" id="file" accept="image/*" onChange={onChange} multiple={mutiple} />
     </>
   );
 };

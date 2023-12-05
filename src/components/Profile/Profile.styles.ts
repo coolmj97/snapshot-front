@@ -11,6 +11,7 @@ export const UserImg = styled.img`
   height: 40px;
   margin-right: 8px;
   border-radius: 100%;
+  object-fit: cover;
   cursor: pointer;
 `;
 

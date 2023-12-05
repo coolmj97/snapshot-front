@@ -2,34 +2,36 @@ import { UserFormData } from '@/apis/user/userApi.types';
 import { createSlice } from '@reduxjs/toolkit';
 
 export interface UserState extends UserFormData {
+  profileImg?: string;
   passwordCheck: string;
-  isError?: boolean;
 }
 
 const initialState: UserState = {
+  profileImg: '',
   email: '',
   password: '',
   passwordCheck: '',
   username: '',
-  isError: false,
 };
 
 export const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    changeForm: (state, action) => {
+    setForm: (state, action) => {
       const { key, value } = action.payload;
       (state as any)[key] = value;
-      state.isError = false;
     },
-    checkRequestError: (state, action) => {
-      state.isError = action.payload;
+    setProfileImg: (state, action) => {
+      state.profileImg = action.payload;
     },
-    resetForm: () => initialState,
+    resetProfileImg: (state) => {
+      state.profileImg = initialState.profileImg;
+    },
+    resetSignUpForm: () => initialState,
   },
 });
 
-export const { changeForm, checkRequestError, resetForm } = userSlice.actions;
+export const { setForm, setProfileImg, resetProfileImg, resetSignUpForm } = userSlice.actions;
 
 export default userSlice.reducer;
