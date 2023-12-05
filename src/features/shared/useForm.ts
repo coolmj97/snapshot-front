@@ -1,5 +1,7 @@
+import { RootState } from '@/store';
 import { ActionCreatorWithPayload } from '@reduxjs/toolkit';
 import { ChangeEvent, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 
 interface UseFormProps {
@@ -14,6 +16,9 @@ interface IsValidType {
 
 export const useForm = (props: UseFormProps) => {
   const { action } = props;
+  const user = useSelector((state: RootState) => state.user);
+  const { password } = user;
+
   const dispatch = useDispatch();
 
   const [isValid, setIsValid] = useState<IsValidType>({
@@ -28,6 +33,11 @@ export const useForm = (props: UseFormProps) => {
 
     if (name === 'email') {
       return emailRegex.test(e.target.value);
+    } else if (name === 'passwordCheck') {
+      if (password === e.target.value) {
+        return true;
+      }
+      return false;
     } else if (name === 'password' || name === 'passwordCheck') {
       return pwRegex.test(e.target.value);
     }

@@ -2,10 +2,10 @@ import { createSlice } from '@reduxjs/toolkit';
 import { SignUpState } from './signUpSlice';
 
 export interface LoginFormState extends SignUpState {
-  isLogin: boolean;
+  isLoggedIn: boolean;
 }
 
-const initialState: LoginFormState = { email: '', password: '', isLogin: false };
+const initialState: LoginFormState = { email: '', password: '', isLoggedIn: false };
 
 export const loginSlice = createSlice({
   name: 'login',
@@ -16,11 +16,12 @@ export const loginSlice = createSlice({
       (state as any)[key] = value;
     },
     logInCheck: (state, action) => {
-      state.isLogin = action.payload;
+      state.isLoggedIn = action.payload;
     },
+    resetLoginForm: () => initialState,
   },
 });
 
-export const { changeLoginForm, logInCheck } = loginSlice.actions;
+export const { changeLoginForm, logInCheck, resetLoginForm } = loginSlice.actions;
 
 export default loginSlice.reducer;

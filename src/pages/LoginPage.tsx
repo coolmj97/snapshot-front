@@ -7,9 +7,12 @@ import { loginByGoogle } from '@/service/auth';
 import { Email } from '@/assets/icons/Email';
 import { GoogleLogo } from '@/assets/icons/GoogleLogo';
 import { auth } from '@/service/firebase';
+import { useDispatch } from 'react-redux';
+import { logInCheck } from '@/redux/loginSlice';
 
 const LoginPage = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const [isLoginByEmail, setIsLoginByEmail] = useState(false);
 
@@ -24,10 +27,11 @@ const LoginPage = () => {
   useEffect(() => {
     auth.onAuthStateChanged((user) => {
       if (user) {
+        dispatch(logInCheck(true));
         navigate('/feed/list');
       }
     });
-  }, [auth]);
+  }, []);
 
   return (
     <>
