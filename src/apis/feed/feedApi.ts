@@ -1,9 +1,9 @@
 import createAxios from '@/utils/createAxios';
-import { FeedDataPayload, GetAllFeed, GetFeedById } from './feedApi.types';
+import { FeedDataPayload, FeedParams, GetAllFeed, GetFeedById } from './feedApi.types';
 
 //피드 목록 조회
-export const findAllFeed = () => {
-  return createAxios().get<GetAllFeed[]>('/feeds');
+export const findAllFeed = (params: FeedParams) => {
+  return createAxios().get<GetAllFeed[]>('/feeds', { params });
 };
 
 //피드 생성

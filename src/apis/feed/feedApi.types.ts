@@ -8,6 +8,11 @@ export interface GetAllFeed {
   updatedAt: string;
 }
 
+export interface FeedParams {
+  limit: number;
+  offset: number;
+}
+
 export interface FeedDataPayload {
   user: FeedDataUser;
   uid: string;
@@ -37,8 +42,4 @@ export interface GetFeedById {
   createdAt: string;
   updatedAt: string;
   _id: string;
-}
-
-export interface FeedParams {
-  id: string;
 }

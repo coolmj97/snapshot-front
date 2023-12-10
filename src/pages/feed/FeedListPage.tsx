@@ -1,26 +1,50 @@
+import { useEffect, useState } from 'react';
+import { generatePath, useNavigate } from 'react-router';
+import { useInfiniteQuery } from '@tanstack/react-query';
+import styled from 'styled-components';
+import { auth } from '@/service/firebase';
 import { findAllFeed } from '@/apis/feed/feedApi';
 import { Layout, Title } from '@/components';
 import ListCard from '@/features/feed/List/ListCard';
-import { auth } from '@/service/firebase';
-import { useQuery } from '@tanstack/react-query';
-import { useEffect, useState } from 'react';
-import { generatePath, useNavigate } from 'react-router';
-import styled from 'styled-components';
+import { FeedParams } from '@/apis/feed/feedApi.types';
 
 const FeedListPage = () => {
   const navigate = useNavigate();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  const getFeeds = async () => {
-    const { data } = await findAllFeed();
+  const onScroll = () => {
+    const scrollY = window.scrollY;
+    const windowHeight = window.innerHeight;
+    const documentHeight = document.documentElement.scrollHeight;
+
+    if (scrollY + windowHeight >= documentHeight) {
+      fetchNextPage();
+    }
+  };
+
+  const getFeeds = async ({ pageParam = 0 }) => {
+    const params: FeedParams = {
+      limit: 10,
+      offset: pageParam * 10,
+    };
+    const { data } = await findAllFeed(params);
     return data;
   };
 
-  const { data: feeds } = useQuery({
-    queryKey: ['fetchFeeds', isLoggedIn],
-    queryFn: () => getFeeds(),
+  const { data, fetchNextPage, hasNextPage, isLoading } = useInfiniteQuery({
+    queryKey: ['feeds', isLoggedIn],
+    queryFn: ({ pageParam }) => getFeeds({ pageParam }),
     enabled: isLoggedIn,
+    initialPageParam: 0,
+    getNextPageParam: (lastPage, allPages, lastPageParam) => {
+      if (lastPage.length === 0) {
+        return undefined;
+      }
+      return lastPageParam + 1;
+    },
   });
+
+  const feeds = data?.pages.flatMap((page) => page);
 
   useEffect(() => {
     auth.onAuthStateChanged((user) => {
@@ -30,7 +54,11 @@ const FeedListPage = () => {
         setIsLoggedIn(false);
       }
     });
+
+    window.addEventListener('scroll', onScroll);
   }, []);
+
+  if (isLoading) return '로딩 중...';
 
   return (
     <Layout>

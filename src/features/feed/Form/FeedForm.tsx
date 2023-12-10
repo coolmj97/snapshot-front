@@ -1,6 +1,6 @@
 import { ChangeEvent, FormEvent, useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useLocation, useParams } from 'react-router';
+import { useLocation, useNavigate, useParams } from 'react-router';
 import axios from 'axios';
 import { auth } from '@/service/firebase';
 import { createFeed, updateFeed } from '@/apis/feed/feedApi';
@@ -25,6 +25,7 @@ const FeedForm = (props: FeedFormProps) => {
   const id = params.id ?? '';
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const location = useLocation();
 
   const baseUrl = import.meta.env.VITE_BASE_URL;
@@ -178,6 +179,7 @@ const FeedForm = (props: FeedFormProps) => {
         $visible={openModal}
         onClose={() => {
           setOpenModal(false);
+          navigate('/feed/list');
           dispatch(resetFeedForm());
         }}
       />
