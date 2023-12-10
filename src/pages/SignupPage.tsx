@@ -1,26 +1,27 @@
-import { Button, Layout, Title } from '@/components';
+import { FormEvent, useEffect, useMemo, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router';
+import { useSelector, useDispatch } from 'react-redux';
+import { updateProfile } from 'firebase/auth';
 import styled from 'styled-components';
 import SignUpForm from '../features/signUp/SignUpForm';
-import { useSelector } from 'react-redux';
 import { RootState } from '@/store';
-import { FormEvent, useMemo, useState } from 'react';
-import Modal from '@/components/Modal/Modal';
-import { useNavigate } from 'react-router';
 import { signUpByEmail } from '@/service/auth';
-import { useDispatch } from 'react-redux';
-import { checkRequestError } from '@/redux/userSlice';
-import { updateProfile } from 'firebase/auth';
-import { resetForm } from '@/redux/feedSlice';
+import { resetSignUpForm } from '@/redux/userSlice';
+import { Button, Layout, Title } from '@/components';
+import Modal from '@/components/Modal/Modal';
 
 const SignUpPage = () => {
   const user = useSelector((state: RootState) => state.user);
-  const { email, username, password, passwordCheck, isError } = user;
+  const { profileImg, email, username, password, passwordCheck } = user;
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const location = useLocation();
 
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
   const [openModal, setOpenModal] = useState<boolean>(false);
+  const [isSignUpError, setIsSignUpError] = useState<boolean>(false);
+  const [errorLog, setErrorLog] = useState<string>('');
 
   const errorMsg = useMemo(() => {
     if (!username) {
@@ -38,10 +39,11 @@ const SignUpPage = () => {
     if (!passwordCheck) {
       return '비밀번호 확인을 입력해주세요.';
     }
-    if (isError) {
-      return '이미 가입된 계정입니다.';
+
+    if (isSignUpError) {
+      return errorLog;
     }
-  }, [username, email, password, passwordCheck, isError]);
+  }, [username, email, password, passwordCheck, isSignUpError, errorLog]);
 
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -62,19 +64,28 @@ const SignUpPage = () => {
       if (data) {
         updateProfile(data.user, {
           displayName: username,
-          // photoURL: 'https://example.com/jane-q-user/profile.jpg',
+          photoURL: profileImg,
         });
       }
 
-      dispatch(resetForm());
       setIsSubmitted(true);
     } catch (e: any) {
-      if (e.code.includes('email-already-in-use')) {
-        dispatch(checkRequestError(true));
-        setOpenModal(true);
+      const existedEmail = e.code === 'auth/email-already-in-use';
+
+      if (existedEmail) {
+        setErrorLog('이미 가입된 계정입니다.');
+      } else {
+        setErrorLog('오류가 발생했습니다. 잠시 후 다시 시도해주세요.');
       }
+
+      setIsSignUpError(true);
+      setOpenModal(true);
     }
   };
+
+  useEffect(() => {
+    dispatch(resetSignUpForm());
+  }, [dispatch, location.pathname]);
 
   return (
     <>
@@ -100,9 +111,9 @@ const SignUpPage = () => {
                 $color="#fff"
                 $marginTop="48px"
                 $fullWidth
-                onClick={() => navigate('/login')}
+                onClick={() => navigate('/feed/list')}
               >
-                로그인
+                목록으로 가기
               </Button>
             </div>
           ) : (
@@ -114,7 +125,14 @@ const SignUpPage = () => {
         </Box>
       </Layout>
 
-      <Modal content={errorMsg} $visible={openModal} onClose={() => setOpenModal(false)} />
+      <Modal
+        content={errorMsg}
+        $visible={openModal}
+        onClose={() => {
+          setOpenModal(false);
+          dispatch(resetSignUpForm());
+        }}
+      />
     </>
   );
 };

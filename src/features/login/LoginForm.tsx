@@ -37,8 +37,6 @@ const LoginForm = () => {
     if (isLogInError) {
       return '아이디 또는 비밀번호가 일치하지 않습니다.';
     }
-
-    return '알 수 없는 오류가 발생했습니다. 다시 시도해주세요.';
   }, [email, password, isLogInError]);
 
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -66,10 +64,6 @@ const LoginForm = () => {
       }
     }
   };
-
-  useEffect(() => {
-    setIsLogInError(false);
-  }, [email, password]);
 
   useEffect(() => {
     dispatch(resetLoginForm());
@@ -108,7 +102,14 @@ const LoginForm = () => {
         </Button>
       </form>
 
-      <Modal content={errorMsg} $visible={openModal} onClose={() => setOpenModal(false)} />
+      <Modal
+        content={errorMsg}
+        $visible={openModal}
+        onClose={() => {
+          setOpenModal(false);
+          dispatch(resetLoginForm());
+        }}
+      />
     </>
   );
 };

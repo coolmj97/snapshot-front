@@ -33,11 +33,11 @@ export const feedSlice = createSlice({
       const filteredPhotos = state.photos.filter((photo) => photo.id !== action.payload);
       state.photos = filteredPhotos;
     },
-    resetForm: () => initialState,
+    resetFeedForm: () => initialState,
   },
 });
 
-export const { setTitle, setPhoto, setContent, initPhoto, deletePhoto, resetForm } =
+export const { setTitle, setPhoto, setContent, initPhoto, deletePhoto, resetFeedForm } =
   feedSlice.actions;
 
 export default feedSlice.reducer;

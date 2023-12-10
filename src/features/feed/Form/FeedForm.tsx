@@ -1,21 +1,20 @@
+import { ChangeEvent, FormEvent, useEffect, useMemo, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useLocation, useParams } from 'react-router';
+import axios from 'axios';
+import { auth } from '@/service/firebase';
 import { createFeed, updateFeed } from '@/apis/feed/feedApi';
 import { FeedDataPayload } from '@/apis/feed/feedApi.types';
+import { RootState } from '@/store';
 import { DeleteIcon } from '@/assets/icons/Delete';
 import { Button, Input } from '@/components';
 import Editor from '@/components/Editor/Editor';
 import Modal from '@/components/Modal/Modal';
 import Upload from '@/components/Upload/Upload';
-import { deletePhoto, resetForm, setContent, setPhoto, setTitle } from '@/redux/feedSlice';
-import { auth } from '@/service/firebase';
-import { RootState } from '@/store';
-import axios from 'axios';
-import { ChangeEvent, FormEvent, useMemo, useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { useSelector } from 'react-redux';
-import { useNavigate, useParams } from 'react-router';
-import { v4 as uuidv4 } from 'uuid';
+import { deletePhoto, resetFeedForm, setContent, setPhoto, setTitle } from '@/redux/feedSlice';
 import { Box, DeleteButton, Img, ImgBox, Label } from './FeedForm.styles';
 import { FeedFormProps, Mode } from './FeedForm.types';
+import { v4 as uuidv4 } from 'uuid';
 
 const FeedForm = (props: FeedFormProps) => {
   const { mode } = props;
@@ -26,11 +25,13 @@ const FeedForm = (props: FeedFormProps) => {
   const id = params.id ?? '';
 
   const dispatch = useDispatch();
-  const navigate = useNavigate();
+  const location = useLocation();
+
   const baseUrl = import.meta.env.VITE_BASE_URL;
 
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
+  const [isFeedError, setIsFeedError] = useState<boolean>(false);
 
   const currentUser = auth.currentUser;
 
@@ -46,7 +47,11 @@ const FeedForm = (props: FeedFormProps) => {
         return '피드가 수정되었습니다.';
       }
     }
-  }, [title, isSubmitted, mode]);
+
+    if (isFeedError) {
+      return '피드 제출 중 오류가 발생했습니다. 다시 시도해주세요.';
+    }
+  }, [mode, title, isSubmitted, isFeedError]);
 
   const onUpload = async (e: ChangeEvent<HTMLInputElement>) => {
     if (photos.length === 5) {
@@ -79,7 +84,6 @@ const FeedForm = (props: FeedFormProps) => {
     e.preventDefault();
 
     if (modalMsg) {
-      setOpenModal(true);
       return;
     }
 
@@ -111,10 +115,16 @@ const FeedForm = (props: FeedFormProps) => {
         setOpenModal(true);
         setIsSubmitted(true);
       } catch (e: any) {
-        console.log(e);
+        if (e) {
+          setIsFeedError(true);
+        }
       }
     }
   };
+
+  useEffect(() => {
+    dispatch(resetFeedForm());
+  }, [dispatch, location.pathname]);
 
   return (
     <div>
@@ -148,7 +158,8 @@ const FeedForm = (props: FeedFormProps) => {
                 </ImgBox>
               );
             })}
-            <Upload onChange={(e) => onUpload(e)} />
+
+            <Upload onChange={(e) => onUpload(e)} mutiple />
           </div>
         </Box>
 
@@ -167,8 +178,7 @@ const FeedForm = (props: FeedFormProps) => {
         $visible={openModal}
         onClose={() => {
           setOpenModal(false);
-          navigate('/feed/list');
-          dispatch(resetForm());
+          dispatch(resetFeedForm());
         }}
       />
     </div>

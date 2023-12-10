@@ -1,9 +1,14 @@
+import { ChangeEvent, FormEvent } from 'react';
+import axios from 'axios';
+import { useDispatch } from 'react-redux';
 import { Button, Input } from '@/components';
 import { Box, Error, Label } from '../shared/styles';
-import { UserState, changeForm } from '@/redux/userSlice';
-import { useDispatch } from 'react-redux';
-import { FormEvent } from 'react';
+import { UserState, resetProfileImg, setForm, setProfileImg } from '@/redux/userSlice';
 import { useForm } from '../shared/useForm';
+import Upload from '@/components/Upload/Upload';
+import styled from 'styled-components';
+import { DeleteButton, ImgBox } from '../feed/Form/FeedForm.styles';
+import { DeleteIcon } from '@/assets/icons/Delete';
 
 interface SignUpFormProps {
   onSubmit: (e: FormEvent<HTMLFormElement>) => void;
@@ -12,12 +17,37 @@ interface SignUpFormProps {
 
 const SignUpForm = (props: SignUpFormProps) => {
   const { onSubmit, user } = props;
-  const { email, username, password, passwordCheck } = user;
+  const { profileImg, email, username, password, passwordCheck } = user;
+
   const dispatch = useDispatch();
+  const baseUrl = import.meta.env.VITE_BASE_URL;
 
   const { isValid, onChangeField } = useForm({
-    action: changeForm,
+    action: setForm,
   });
+
+  const onUpload = async (e: ChangeEvent<HTMLInputElement>) => {
+    const fileList = e.target.files;
+
+    if (!fileList) return;
+
+    for (let i = 0; i < fileList.length; i++) {
+      const file = fileList[i];
+
+      const formData = new FormData();
+      formData.append('file', file);
+
+      try {
+        const { data } = await axios.post(`${baseUrl}/upload`, formData);
+
+        dispatch(setProfileImg(data.url));
+      } catch (e) {
+        alert('알 수 없는 오류가 발생했습니다.');
+      }
+    }
+
+    e.target.value = '';
+  };
 
   return (
     <div>
@@ -29,8 +59,28 @@ const SignUpForm = (props: SignUpFormProps) => {
             placeholder="이름"
             value={username}
             maxLength={15}
-            onChange={(e) => dispatch(changeForm({ key: 'username', value: e.target.value }))}
+            onChange={(e) => dispatch(setForm({ key: 'username', value: e.target.value }))}
           />
+        </Box>
+
+        <Box>
+          <Label htmlFor="profileImg">프로필 사진</Label>
+
+          <div
+            style={{
+              display: 'flex',
+            }}
+          >
+            {profileImg && (
+              <ImgBox>
+                <Img src={profileImg} />
+                <DeleteButton onClick={() => dispatch(resetProfileImg())}>
+                  <DeleteIcon />
+                </DeleteButton>
+              </ImgBox>
+            )}
+            <Upload onChange={onUpload} />
+          </div>
         </Box>
 
         <Box>
@@ -81,3 +131,12 @@ const SignUpForm = (props: SignUpFormProps) => {
 };
 
 export default SignUpForm;
+
+const Img = styled.img`
+  width: 100px;
+  height: 100px;
+  margin-right: 8px;
+  border-radius: 20px;
+  border: 1px solid #d3d3d3;
+  object-fit: contain;
+`;
