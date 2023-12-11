@@ -6,6 +6,7 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import store from './store';
 import 'dayjs/locale/ko';
 import dayjs from 'dayjs';
+import 'semantic-ui-css/semantic.min.css';
 
 function App() {
   dayjs.locale('ko');

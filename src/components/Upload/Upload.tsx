@@ -1,4 +1,4 @@
-import { Add } from '@/assets/icons/Add';
+import { AddIcon } from '@/assets/icons/AddIcon';
 import { ChangeEvent } from 'react';
 import styled from 'styled-components';
 
@@ -13,7 +13,7 @@ const Upload = (props: UploadProps) => {
   return (
     <>
       <Label htmlFor="file">
-        <Add />
+        <AddIcon />
       </Label>
       <UploadInput type="file" id="file" accept="image/*" onChange={onChange} multiple={mutiple} />
     </>
@@ -31,6 +31,11 @@ const Label = styled.label`
   border: 1px solid #d3d3d3;
   border-radius: 20px;
   cursor: pointer;
+
+  @media (max-width: 576px) {
+    width: 80px;
+    height: 80px;
+  }
 `;
 
 const UploadInput = styled.input`

@@ -24,6 +24,8 @@
     "react-router": "^6.18.0",
     "react-router-dom": "^6.18.0",
     "react-slick": "^0.29.0",
+    "semantic-ui-css": "^2.5.0",
+    "semantic-ui-react": "^2.1.5",
     "slick-carousel": "^1.8.1",
     "styled-components": "^6.1.1",
     "uuidv4": "^6.2.13"

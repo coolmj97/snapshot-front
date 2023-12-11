@@ -7,6 +7,8 @@ import { findAllFeed } from '@/apis/feed/feedApi';
 import { Layout, Title } from '@/components';
 import ListCard from '@/features/feed/List/ListCard';
 import { FeedParams } from '@/apis/feed/feedApi.types';
+import { Dimmer, Loader, Segment } from 'semantic-ui-react';
+import { EditIcon } from '@/assets/icons/EditIcon';
 
 const FeedListPage = () => {
   const navigate = useNavigate();
@@ -31,7 +33,7 @@ const FeedListPage = () => {
     return data;
   };
 
-  const { data, fetchNextPage, hasNextPage, isLoading } = useInfiniteQuery({
+  const { data, fetchNextPage, hasNextPage, isFetched } = useInfiniteQuery({
     queryKey: ['feeds', isLoggedIn],
     queryFn: ({ pageParam }) => getFeeds({ pageParam }),
     enabled: isLoggedIn,
@@ -58,37 +60,69 @@ const FeedListPage = () => {
     window.addEventListener('scroll', onScroll);
   }, []);
 
-  if (isLoading) return '로딩 중...';
-
   return (
     <Layout>
       <Box>
-        <Title title="피드" />
-        <CardContainer>
-          {feeds?.map((feed) => {
-            const hasImg = feed.photos.length ? true : false;
+        {!isFetched ? (
+          <Dimmer active inverted>
+            <Loader />
+          </Dimmer>
+        ) : (
+          <>
+            <Title title="피드" />
+            {feeds?.length ? (
+              <CardContainer>
+                {feeds?.map((feed) => {
+                  const hasImg = feed.photos.length ? true : false;
 
-            return (
-              <ListCard
-                key={feed._id}
-                data={feed}
-                hasImg={hasImg}
-                onClick={() => {
-                  const path = generatePath('/feed/:id', {
-                    id: feed._id,
-                  });
-                  navigate(path);
-                }}
-              />
-            );
-          })}
-        </CardContainer>
+                  return (
+                    <ListCard
+                      key={feed._id}
+                      data={feed}
+                      hasImg={hasImg}
+                      onClick={() => {
+                        const path = generatePath('/feed/:id', {
+                          id: feed._id,
+                        });
+                        navigate(path);
+                      }}
+                    />
+                  );
+                })}
+              </CardContainer>
+            ) : (
+              <EmptyFeeds>작성된 피드가 없습니다.</EmptyFeeds>
+            )}
+
+            <WritingButton onClick={() => navigate('/feed/create')}>
+              <EditIcon color="#fff" />
+            </WritingButton>
+          </>
+        )}
       </Box>
     </Layout>
   );
 };
 
 export default FeedListPage;
+
+const WritingButton = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 64px;
+  height: 64px;
+  padding: 8px;
+  background: #f0133a;
+  border-radius: 50%;
+  position: fixed;
+  bottom: 20px;
+  right: 10px;
+  margin-right: 16px;
+  cursor: pointer;
+
+  box-shadow: 0px 6px 10px 1px rgba(0, 0, 0, 0.2);
+`;
 
 const Box = styled.div`
   height: 100vh;
@@ -107,4 +141,11 @@ const CardContainer = styled.div`
     padding: 16px;
     grid-template-columns: repeat(auto-fill, minmax(100px, 3fr));
   }
+`;
+
+const EmptyFeeds = styled.div`
+  padding: 40px;
+  color: #a9a9a9;
+  font-size: 1rem;
+  text-align: center;
 `;

@@ -1,24 +1,32 @@
 import { ReactNode, useEffect, useRef, useState } from 'react';
-import { Header } from './Layout.styles';
+import { Header, LogoBox } from './Layout.styles';
 import { Button } from '..';
 import { useNavigate } from 'react-router';
 import { auth } from '@/service/firebase';
-import { PrevArrow } from '@/assets/icons/PrevArrow';
 import Menu from '../Menu/Menu';
 import { MenuListType } from '../Menu/Menu.types';
 import { MenuBox } from '../Menu/Menu.styles';
 import Profile from '../Profile/Profile';
 import { User } from 'firebase/auth';
+import { EditIcon } from '@/assets/icons/EditIcon';
+import { Dimmer } from 'semantic-ui-react';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/store';
+import Modal from '../Modal/Modal';
 
 interface LayoutProps {
   children: ReactNode;
 }
 
 const Layout = ({ children }: LayoutProps) => {
-  const [isLoading, setIsLoading] = useState(false);
+  const feed = useSelector((state: RootState) => state.feed);
+  const { title, photos, content } = feed;
+
+  const [isLoading, setIsLoading] = useState(true);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [openMenu, setOpenMenu] = useState(false);
   const [currentUser, setCurrentUser] = useState<User | null>(null);
+  const [openModal, setOpenModal] = useState<boolean>(false);
 
   const navigate = useNavigate();
 
@@ -55,7 +63,7 @@ const Layout = ({ children }: LayoutProps) => {
       } else {
         setIsLoggedIn(false);
       }
-      setIsLoading(true);
+      setIsLoading(false);
     });
   };
 
@@ -64,7 +72,7 @@ const Layout = ({ children }: LayoutProps) => {
     document.addEventListener('mousedown', onBlur);
   }, []);
 
-  if (!isLoading) return <></>;
+  if (isLoading) return <Dimmer active blurring inverted />;
 
   return (
     <>
@@ -74,25 +82,23 @@ const Layout = ({ children }: LayoutProps) => {
         }}
       >
         <Header>
-          <div
-            style={{
-              cursor: 'pointer',
-            }}
-            onClick={() => navigate(-1)}
-          >
-            <PrevArrow color="#121212" />
-          </div>
-          <div
-            onClick={() => navigate('/intro')}
-            style={{
-              cursor: 'pointer',
+          <LogoBox
+            onClick={() => {
+              if (feed) {
+                setOpenModal(true);
+              }
             }}
           >
             <img src="/src/assets/logo.png" width={'100%'} />
-          </div>
+          </LogoBox>
 
           {!isLoggedIn ? (
-            <div>
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+              }}
+            >
               <Button
                 $border="1px solid #D3D3D3"
                 $marginRight="8px"
@@ -110,17 +116,9 @@ const Layout = ({ children }: LayoutProps) => {
             <div
               style={{
                 display: 'flex',
+                alignItems: 'center',
               }}
             >
-              <Button
-                $background="#f0133a"
-                $color="#fff"
-                $marginRight="16px"
-                onClick={() => navigate('/feed/create')}
-              >
-                글 작성하기
-              </Button>
-
               <MenuBox ref={dropdownRef}>
                 <Profile
                   url={currentUser?.photoURL ?? ''}
@@ -136,6 +134,31 @@ const Layout = ({ children }: LayoutProps) => {
       </div>
 
       {children}
+
+      <Modal
+        $visible={openModal}
+        content={
+          <div>
+            작성 중인 게시글이 있습니다.
+            <br /> 정말로 나가시겠습니까?
+          </div>
+        }
+        footer={
+          <>
+            <Button
+              $background="#f0133a"
+              $color="#fff"
+              $marginRight="8px"
+              onClick={() => navigate('/intro')}
+            >
+              네
+            </Button>
+            <Button $border="1px solid #D3D3D3" onClick={() => setOpenModal(false)}>
+              아니오
+            </Button>
+          </>
+        }
+      />
     </>
   );
 };

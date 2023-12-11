@@ -6,6 +6,8 @@ interface ModalStyleProps {
 
 export const ModalDesc = styled.div`
   margin-bottom: 16px;
+  font-size: 1rem;
+  line-height: 1.2em;
 `;
 
 export const ModalTitle = styled.div`
@@ -30,6 +32,10 @@ export const StyledModal = styled.div<ModalStyleProps>`
   border-radius: 10px;
   position: absolute;
   z-index: 99;
+
+  @media (max-width: 576px) {
+    width: 90%;
+  }
 
   @keyframes fadeInModal {
     from {

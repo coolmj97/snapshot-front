@@ -3,6 +3,7 @@ import styled, { css } from 'styled-components';
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   width?: string;
+  height?: string;
   $fullWidth?: boolean;
   marginTop?: string;
   marginRight?: string;
@@ -22,7 +23,7 @@ const fullWidthStyle = css<InputProps>`
 
 const StyledInput = styled.input<InputProps>`
   width: ${(props) => props.width};
-  height: 26px;
+  height: ${(props) => props.height || '26px'};
   display: inline-flex;
   border: 1px solid #d3d3d3;
   border-radius: 4px;

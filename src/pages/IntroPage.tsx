@@ -77,6 +77,6 @@ const Box = styled.div`
   align-items: center;
 
   @media (max-width: 576px) {
-    width: 100%;
+    width: 50%;
   }
 `;

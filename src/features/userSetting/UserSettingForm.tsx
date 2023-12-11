@@ -5,7 +5,7 @@ import axios from 'axios';
 import { Button, Input } from '@/components';
 import { Box, Error, Label } from '../shared/styles';
 import { DeleteButton, Img, ImgBox } from '../feed/Form/FeedForm.styles';
-import { DeleteIcon } from '@/assets/icons/Delete';
+import { DeleteIcon } from '@/assets/icons/DeleteIcon';
 import Upload from '@/components/Upload/Upload';
 import { resetProfileImg, setForm, setProfileImg } from '@/redux/userSlice';
 import { useForm } from '../shared/useForm';
@@ -63,24 +63,26 @@ const UserSettingForm = (props: UserSettingFormProps) => {
           <Value>{currentUser?.displayName}</Value>
         </Box>
 
-        <Box>
-          <Label htmlFor="profileImg">프로필 사진</Label>
-          <div
-            style={{
-              display: 'flex',
-            }}
-          >
-            {profileImg && (
-              <ImgBox>
-                <Img src={profileImg ?? currentUser?.photoURL} />
-                <DeleteButton onClick={() => dispatch(resetProfileImg())}>
-                  <DeleteIcon />
-                </DeleteButton>
-              </ImgBox>
-            )}
-            <Upload onChange={onUpload} />
-          </div>
-        </Box>
+        {!isGoogleUser && (
+          <Box>
+            <Label htmlFor="profileImg">프로필 사진</Label>
+            <div
+              style={{
+                display: 'flex',
+              }}
+            >
+              {profileImg && (
+                <ImgBox>
+                  <Img src={profileImg ?? currentUser?.photoURL} />
+                  <DeleteButton onClick={() => dispatch(resetProfileImg())}>
+                    <DeleteIcon />
+                  </DeleteButton>
+                </ImgBox>
+              )}
+              <Upload onChange={onUpload} />
+            </div>
+          </Box>
+        )}
 
         <Box>
           <Label htmlFor="email">이메일</Label>
@@ -114,9 +116,11 @@ const UserSettingForm = (props: UserSettingFormProps) => {
           </Box>
         ) : null}
 
-        <Button type="submit" $background="#f0133a" $color="#fff" $marginTop="48px" $fullWidth>
-          정보 수정
-        </Button>
+        {!isGoogleUser && (
+          <Button type="submit" $background="#f0133a" $color="#fff" $marginTop="48px" $fullWidth>
+            정보 수정
+          </Button>
+        )}
       </form>
     </>
   );

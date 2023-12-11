@@ -8,7 +8,7 @@ import { useForm } from '../shared/useForm';
 import Upload from '@/components/Upload/Upload';
 import styled from 'styled-components';
 import { DeleteButton, ImgBox } from '../feed/Form/FeedForm.styles';
-import { DeleteIcon } from '@/assets/icons/Delete';
+import { DeleteIcon } from '@/assets/icons/DeleteIcon';
 
 interface SignUpFormProps {
   onSubmit: (e: FormEvent<HTMLFormElement>) => void;

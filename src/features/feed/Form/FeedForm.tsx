@@ -6,7 +6,7 @@ import { auth } from '@/service/firebase';
 import { createFeed, updateFeed } from '@/apis/feed/feedApi';
 import { FeedDataPayload } from '@/apis/feed/feedApi.types';
 import { RootState } from '@/store';
-import { DeleteIcon } from '@/assets/icons/Delete';
+import { DeleteIcon } from '@/assets/icons/DeleteIcon';
 import { Button, Input } from '@/components';
 import Editor from '@/components/Editor/Editor';
 import Modal from '@/components/Modal/Modal';
@@ -33,10 +33,15 @@ const FeedForm = (props: FeedFormProps) => {
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
   const [isFeedError, setIsFeedError] = useState<boolean>(false);
+  const [isUploadError, setIsUploadError] = useState<boolean>(false);
 
   const currentUser = auth.currentUser;
 
   const modalMsg = useMemo(() => {
+    if (isUploadError) {
+      return '사진은 최대 5장까지 업로드 가능합니다.';
+    }
+
     if (!title) {
       return '제목을 입력해주세요.';
     }
@@ -52,16 +57,18 @@ const FeedForm = (props: FeedFormProps) => {
     if (isFeedError) {
       return '피드 제출 중 오류가 발생했습니다. 다시 시도해주세요.';
     }
-  }, [mode, title, isSubmitted, isFeedError]);
+  }, [mode, title, isSubmitted, isFeedError, isUploadError]);
 
   const onUpload = async (e: ChangeEvent<HTMLInputElement>) => {
-    if (photos.length === 5) {
-      alert('사진은 최대 5장까지 업로드 가능합니다.');
-      return;
-    }
     const fileList = e.target.files;
 
     if (!fileList) return;
+
+    if (photos.length === 5 || fileList.length > 5) {
+      setIsUploadError(true);
+      setOpenModal(true);
+      return;
+    }
 
     for (let i = 0; i < fileList.length; i++) {
       const file = fileList[i];
@@ -85,6 +92,7 @@ const FeedForm = (props: FeedFormProps) => {
     e.preventDefault();
 
     if (modalMsg) {
+      setOpenModal(true);
       return;
     }
 
@@ -118,14 +126,21 @@ const FeedForm = (props: FeedFormProps) => {
       } catch (e: any) {
         if (e) {
           setIsFeedError(true);
+          setOpenModal(true);
         }
       }
     }
   };
 
   useEffect(() => {
+    if (mode === Mode.Edit) return;
     dispatch(resetFeedForm());
-  }, [dispatch, location.pathname]);
+  }, [mode, dispatch, location.pathname]);
+
+  useEffect(() => {
+    setIsFeedError(false);
+    setIsUploadError(false);
+  }, []);
 
   return (
     <div>
@@ -138,6 +153,7 @@ const FeedForm = (props: FeedFormProps) => {
             value={title}
             onChange={(e) => dispatch(setTitle(e.target.value))}
             $fullWidth
+            height="38px"
           />
         </Box>
 
@@ -178,9 +194,13 @@ const FeedForm = (props: FeedFormProps) => {
         content={modalMsg}
         $visible={openModal}
         onClose={() => {
-          setOpenModal(false);
-          navigate('/feed/list');
-          dispatch(resetFeedForm());
+          if (isSubmitted) {
+            setOpenModal(false);
+            navigate('/feed/list');
+            dispatch(resetFeedForm());
+          } else {
+            setOpenModal(false);
+          }
         }}
       />
     </div>

@@ -11,6 +11,7 @@ import { useEffect, useRef, useState } from 'react';
 import { MenuBox } from '@/components/Menu/Menu.styles';
 import Profile from '@/components/Profile/Profile';
 import Modal from '@/components/Modal/Modal';
+import { Dimmer, Loader } from 'semantic-ui-react';
 
 const FeedDetailPage = () => {
   const navigate = useNavigate();
@@ -27,7 +28,7 @@ const FeedDetailPage = () => {
     return data;
   };
 
-  const { data: feed } = useQuery({
+  const { data: feed, isLoading } = useQuery({
     queryKey: ['getFeedById', id],
     queryFn: () => getFeedById(),
     enabled: !!id,
@@ -67,8 +68,12 @@ const FeedDetailPage = () => {
     document.addEventListener('mousedown', onBlur);
   }, []);
 
-  if (!feed) {
-    return <></>;
+  if (isLoading) {
+    return (
+      <Dimmer active inverted>
+        <Loader />
+      </Dimmer>
+    );
   }
 
   return (
@@ -127,6 +132,11 @@ const Box = styled.div`
   width: 700px;
   margin: 0 auto;
   padding: 48px;
+
+  @media (max-width: 576px) {
+    width: 80%;
+    padding: 32px 0;
+  }
 `;
 
 const ProfileMenuBox = styled.div`
@@ -140,7 +150,7 @@ const ProfileMenuBox = styled.div`
 
 const Title = styled.div`
   margin-bottom: 32px;
-  font-size: 32px;
+  font-size: 1.5rem;
   font-weight: 500;
 `;
 

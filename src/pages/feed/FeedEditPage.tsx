@@ -19,20 +19,24 @@ const FeedEditPage = () => {
     return data;
   };
 
-  const { data: feed } = useQuery({
+  const {
+    data: feed,
+    isFetched,
+    isFetching,
+    isLoading,
+  } = useQuery({
     queryKey: ['getFeedById', id],
     queryFn: () => getFeedById(),
     enabled: !!id,
   });
 
   useEffect(() => {
-    if (!feed) {
-      return;
-    }
+    if (isLoading) return;
+
     dispatch(setTitle(feed?.title));
     dispatch(initPhoto(feed?.photos));
     dispatch(setContent(feed?.content));
-  }, [feed, dispatch]);
+  }, [isLoading, feed, dispatch]);
 
   return (
     <Layout>

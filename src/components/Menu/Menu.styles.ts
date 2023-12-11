@@ -24,7 +24,7 @@ export const Box = styled.ul<{ $top?: number }>`
   z-index: 99;
 
   & > li {
-    min-width: 80px;
+    min-width: 90px;
     padding: 8px;
     text-align: center;
     cursor: pointer;

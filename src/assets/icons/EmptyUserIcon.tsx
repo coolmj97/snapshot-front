@@ -1,6 +1,6 @@
 import { IconProps } from './types/Icon.types';
 
-export const EmptyUser = ({ ...args }: IconProps) => {
+export const EmptyUserIcon = ({ ...args }: IconProps) => {
   return (
     <svg
       width="40px"

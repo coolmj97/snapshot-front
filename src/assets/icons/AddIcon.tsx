@@ -1,8 +1,8 @@
-export const Add = () => {
+export const AddIcon = () => {
   return (
     <svg
-      width="84px"
-      height="84px"
+      width="44px"
+      height="44px"
       viewBox="0 0 24.00 24.00"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"

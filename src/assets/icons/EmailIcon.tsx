@@ -1,6 +1,6 @@
 import { IconProps } from './types/Icon.types';
 
-export const Email = ({ ...args }: IconProps) => {
+export const EmailIcon = ({ ...args }: IconProps) => {
   return (
     <svg
       fill="#a0a0a0"

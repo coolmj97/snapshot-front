@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 import { Date, ProfileBox, UserImg, Username } from './Profile.styles';
 import { ProfileProps } from './Profile.types';
-import { EmptyUser } from '@/assets/icons/EmptyUser';
+import { EmptyUserIcon } from '@/assets/icons/EmptyUserIcon';
 
 const Profile = (props: ProfileProps) => {
   const { url, name, date, onlyImg, onClick } = props;
@@ -12,7 +12,7 @@ const Profile = (props: ProfileProps) => {
         <UserImg src={url} onClick={onClick} />
       ) : (
         <div onClick={onClick}>
-          <EmptyUser
+          <EmptyUserIcon
             style={{
               cursor: 'pointer',
             }}

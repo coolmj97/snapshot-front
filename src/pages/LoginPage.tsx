@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { useNavigate } from 'react-router';
 import { useEffect, useState } from 'react';
 import { loginByGoogle } from '@/service/auth';
-import { Email } from '@/assets/icons/Email';
+import { EmailIcon } from '@/assets/icons/EmailIcon';
 import { GoogleLogo } from '@/assets/icons/GoogleLogo';
 import { auth } from '@/service/firebase';
 import { useDispatch } from 'react-redux';
@@ -58,7 +58,7 @@ const LoginPage = () => {
                   setIsLoginByEmail(true);
                 }}
               >
-                <Email style={{ marginRight: '8px' }} /> 이메일로 로그인
+                <EmailIcon style={{ marginRight: '8px' }} /> 이메일로 로그인
               </Button>
 
               <SignUpButton onClick={() => navigate('/sign-up')}>회원가입</SignUpButton>
@@ -93,4 +93,8 @@ const Box = styled.div`
   height: 100vh;
   padding: 48px 0;
   margin: 0 auto;
+
+  @media (max-width: 576px) {
+    width: 70%;
+  }
 `;

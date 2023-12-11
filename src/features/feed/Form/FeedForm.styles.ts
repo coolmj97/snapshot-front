@@ -12,6 +12,11 @@ export const ImgBox = styled.div`
     opacity: 0.6;
     background: rgb(0, 0, 0, 0.5);
   }
+
+  @media (max-width: 576px) {
+    width: 80px;
+    height: 80px;
+  }
 `;
 
 export const Img = styled.img`

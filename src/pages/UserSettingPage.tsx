@@ -51,7 +51,7 @@ const UserSettingPage = () => {
   return (
     <Layout>
       <Box>
-        <Title title="정보수정"></Title>
+        <Title title="마이페이지"></Title>
         <UserSettingForm currentUser={currentUser} onSubmit={onSubmit} />
       </Box>
 
