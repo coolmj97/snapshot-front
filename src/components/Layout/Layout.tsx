@@ -8,7 +8,6 @@ import { MenuListType } from '../Menu/Menu.types';
 import { MenuBox } from '../Menu/Menu.styles';
 import Profile from '../Profile/Profile';
 import { User } from 'firebase/auth';
-import { EditIcon } from '@/assets/icons/EditIcon';
 import { Dimmer } from 'semantic-ui-react';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store';
@@ -35,7 +34,7 @@ const Layout = ({ children }: LayoutProps) => {
   const onClickLogOut = () => {
     auth.signOut();
     setIsLoggedIn(false);
-    navigate('/intro');
+    navigate('/');
   };
 
   const menuList: MenuListType[] = [
@@ -72,7 +71,7 @@ const Layout = ({ children }: LayoutProps) => {
     document.addEventListener('mousedown', onBlur);
   }, []);
 
-  if (isLoading) return <Dimmer active blurring inverted />;
+  if (isLoading) return <Dimmer active blurring="true" inverted />;
 
   return (
     <>
@@ -84,9 +83,11 @@ const Layout = ({ children }: LayoutProps) => {
         <Header>
           <LogoBox
             onClick={() => {
-              if (feed) {
+              if (feed.title || feed.photos.length || feed.content) {
                 setOpenModal(true);
+                return;
               }
+              navigate('/');
             }}
           >
             <img src="/src/assets/logo.png" width={'100%'} />
@@ -149,7 +150,7 @@ const Layout = ({ children }: LayoutProps) => {
               $background="#f0133a"
               $color="#fff"
               $marginRight="8px"
-              onClick={() => navigate('/intro')}
+              onClick={() => navigate('/')}
             >
               네
             </Button>

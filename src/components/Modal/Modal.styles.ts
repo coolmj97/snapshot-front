@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 interface ModalStyleProps {
-  visible: boolean;
+  $visible: boolean;
 }
 
 export const ModalDesc = styled.div`
@@ -17,10 +17,10 @@ export const ModalTitle = styled.div`
 `;
 
 export const StyledModal = styled.div<ModalStyleProps>`
-  ${({ visible }) => `
+  ${({ $visible }) => `
 
     animation: ${
-      visible ? 'fadeInModal 0.5s ease-in-out forwards' : 'fadeOutModal 0.5s ease-in-out forwards'
+      $visible ? 'fadeInModal 0.5s ease-in-out forwards' : 'fadeOutModal 0.5s ease-in-out forwards'
     };
 
 
@@ -35,6 +35,7 @@ export const StyledModal = styled.div<ModalStyleProps>`
 
   @media (max-width: 576px) {
     width: 90%;
+    left: 5%;
   }
 
   @keyframes fadeInModal {
@@ -49,7 +50,7 @@ export const StyledModal = styled.div<ModalStyleProps>`
   }
   @keyframes fadeOutModal {
     from {
-      transform: translateY(70px);
+      transform: translateY(50%);
       opacity: 1;
     }
     to {
@@ -60,19 +61,19 @@ export const StyledModal = styled.div<ModalStyleProps>`
 `;
 
 export const Dim = styled.div<ModalStyleProps>`
-  ${({ visible }) => `
-      display:${visible ? 'block' : 'none'};
+  ${({ $visible }) => `
+      display:${$visible ? 'block' : 'none'};
       animation: ${
-        visible ? 'fadeInDim 0.3s ease-in-out forwards' : 'fadeOutDim 0.3s ease-in-out forwards'
+        $visible ? 'fadeInDim 0.3s ease-in-out forwards' : 'fadeOutDim 0.3s ease-in-out forwards'
       };
 
   `};
 
   justify-content: center;
   width: 100%;
-  height: 100vh;
+  height: 100%;
   background: rgb(0, 0, 0, 0.5);
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
 

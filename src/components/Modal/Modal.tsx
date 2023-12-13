@@ -16,8 +16,8 @@ const Modal = (props: ModalProps) => {
   const modal = document.querySelector('#modal') as HTMLElement;
 
   return createPortal(
-    <Dim visible={$visible}>
-      <StyledModal visible={$visible}>
+    <Dim $visible={$visible}>
+      <StyledModal $visible={$visible}>
         <div style={{ width: '100%' }}>
           <ModalTitle>알림</ModalTitle>
           <ModalDesc>{content}</ModalDesc>
@@ -28,7 +28,9 @@ const Modal = (props: ModalProps) => {
               justifyContent: 'end',
             }}
           >
-            {footer ?? (
+            {footer ? (
+              footer
+            ) : (
               <Button $background="#f0133a" $color="#fff" onClick={onClose}>
                 확인
               </Button>

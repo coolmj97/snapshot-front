@@ -29,7 +29,7 @@ const Label = styled.label`
   width: 100px;
   height: 100px;
   border: 1px solid #d3d3d3;
-  border-radius: 20px;
+  border-radius: 8px;
   cursor: pointer;
 
   @media (max-width: 576px) {

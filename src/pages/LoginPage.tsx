@@ -1,13 +1,13 @@
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router';
+import { useDispatch } from 'react-redux';
+import styled from 'styled-components';
 import { Button, Layout, Title } from '@/components';
 import LoginForm from '../features/login/LoginForm';
-import styled from 'styled-components';
-import { useNavigate } from 'react-router';
-import { useEffect, useState } from 'react';
 import { loginByGoogle } from '@/service/auth';
 import { EmailIcon } from '@/assets/icons/EmailIcon';
 import { GoogleLogo } from '@/assets/icons/GoogleLogo';
 import { auth } from '@/service/firebase';
-import { useDispatch } from 'react-redux';
 import { logInCheck } from '@/redux/loginSlice';
 
 const LoginPage = () => {
@@ -19,8 +19,12 @@ const LoginPage = () => {
   const onLoginWithGoogle = async () => {
     try {
       await loginByGoogle();
-    } catch (e) {
-      console.log(e);
+    } catch (e: any) {
+      if (e.code === 'auth/popup-blocked') {
+        window.confirm('팝업이 차단되었습니다. 차단을 해제하고 다시 시도하시겠습니까?');
+      } else {
+        console.error(e);
+      }
     }
   };
 
@@ -31,7 +35,7 @@ const LoginPage = () => {
         navigate('/feed/list');
       }
     });
-  }, []);
+  }, [dispatch, navigate]);
 
   return (
     <>
@@ -40,7 +44,7 @@ const LoginPage = () => {
           <Title title="로그인" />
 
           {isLoginByEmail ? (
-            <LoginForm />
+            <LoginForm onBack={() => setIsLoginByEmail(false)} />
           ) : (
             <ButtonBox>
               <Button

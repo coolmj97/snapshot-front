@@ -7,11 +7,12 @@ import styled from 'styled-components';
 import Dompurify from 'dompurify';
 import Menu from '@/components/Menu/Menu';
 import { MenuListType } from '@/components/Menu/Menu.types';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { MenuBox } from '@/components/Menu/Menu.styles';
 import Profile from '@/components/Profile/Profile';
 import Modal from '@/components/Modal/Modal';
 import { Dimmer, Loader } from 'semantic-ui-react';
+import { auth } from '@/service/firebase';
 
 const FeedDetailPage = () => {
   const navigate = useNavigate();
@@ -20,6 +21,8 @@ const FeedDetailPage = () => {
 
   const [openMenu, setOpenMenu] = useState(false);
   const [openModal, setOpenModal] = useState<boolean>(false);
+  const [canAccess, setCanAccess] = useState<boolean>(true);
+  const [showConfirmModal, setShowConfirmModal] = useState<boolean>(true);
 
   const dropdownRef = useRef<any>(null);
 
@@ -53,7 +56,9 @@ const FeedDetailPage = () => {
     {
       name: '삭제',
       onClick: () => {
+        setShowConfirmModal(true);
         setOpenModal(true);
+        setOpenMenu(false);
       },
     },
   ];
@@ -67,6 +72,32 @@ const FeedDetailPage = () => {
   useEffect(() => {
     document.addEventListener('mousedown', onBlur);
   }, []);
+
+  const modalMsg = useMemo(() => {
+    if (!canAccess) {
+      return '권한이 없습니다.';
+    }
+
+    if (showConfirmModal) {
+      return '정말 삭제하시겠습니까?';
+    }
+  }, [canAccess, showConfirmModal]);
+
+  useEffect(() => {
+    if (!feed) return;
+
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      if (user?.uid !== feed?.uid) {
+        navigate('/feed/list');
+        setCanAccess(false);
+        setOpenModal(true);
+      } else {
+        setCanAccess(true);
+      }
+    });
+
+    return () => unsubscribe();
+  }, [feed, navigate]);
 
   if (isLoading) {
     return (
@@ -83,12 +114,12 @@ const FeedDetailPage = () => {
 
         <ProfileMenuBox>
           <Profile
-            url={feed?.user.profileImgUrl}
-            name={feed?.user.username}
+            url={feed?.user.profileImgUrl || ''}
+            name={feed?.user.username || ''}
             date={feed?.updatedAt}
           />
 
-          <MenuBox>
+          <MenuBox ref={dropdownRef}>
             <div style={{ cursor: 'pointer' }} onClick={() => setOpenMenu(!openMenu)}>
               <MenuDot />
             </div>
@@ -110,16 +141,27 @@ const FeedDetailPage = () => {
 
       <Modal
         $visible={openModal}
-        content={'정말 삭제하시겠습니까?'}
+        content={modalMsg}
         footer={
-          <>
-            <Button $background="#f0133a" $color="#fff" $marginRight="8px" onClick={onDelete}>
-              네
+          !canAccess ? (
+            <Button
+              $background="#f0133a"
+              $color="#fff"
+              $marginRight="8px"
+              onClick={() => navigate('/feed/list')}
+            >
+              확인
             </Button>
-            <Button $border="1px solid #D3D3D3" onClick={() => setOpenModal(false)}>
-              아니오
-            </Button>
-          </>
+          ) : (
+            <>
+              <Button $background="#f0133a" $color="#fff" $marginRight="8px" onClick={onDelete}>
+                네
+              </Button>
+              <Button $border="1px solid #D3D3D3" onClick={() => setOpenModal(false)}>
+                아니오
+              </Button>
+            </>
+          )
         }
       />
     </Layout>
@@ -144,7 +186,6 @@ const ProfileMenuBox = styled.div`
   justify-content: space-between;
   align-items: center;
   padding-bottom: 32px;
-  margin-bottom: 32px;
   border-bottom: 2px solid rgba(0, 0, 0, 0.05);
 `;
 

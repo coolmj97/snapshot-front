@@ -3,15 +3,10 @@ import styled from 'styled-components';
 export const ImgBox = styled.div`
   width: 100px;
   height: 100px;
-  margin-right: 16px;
-  border-radius: 20px;
+  margin-right: 8px;
+  border-radius: 8px;
   position: relative;
   cursor: pointer;
-
-  &:hover {
-    opacity: 0.6;
-    background: rgb(0, 0, 0, 0.5);
-  }
 
   @media (max-width: 576px) {
     width: 80px;
@@ -22,23 +17,22 @@ export const ImgBox = styled.div`
 export const Img = styled.img`
   width: 100%;
   height: 100%;
-  border-radius: 20px;
+  border-radius: 8px;
   border: 1px solid #d3d3d3;
   object-fit: cover;
 `;
 
 export const DeleteButton = styled.div`
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  visibility: hidden;
-  cursor: pointer;
-  opacity: 1;
+  width: 20px;
+  height: 20px;
+  padding: 2px;
+  border-radius: 100%;
+  background: red;
+  text-align: center;
 
-  ${ImgBox}:hover & {
-    visibility: visible;
-  }
+  position: absolute;
+  top: 4px;
+  left: 4px;
 `;
 
 export const Box = styled.div`

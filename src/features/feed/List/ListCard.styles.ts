@@ -1,9 +1,13 @@
 import styled from 'styled-components';
 
+export const CardBox = styled.div`
+  margin-bottom: 48px;
+`;
+
 export const Card = styled.div`
   width: 300px;
   height: 300px;
-  margin: 48px 0;
+  margin: 24px 0;
   border: 1px solid #d3d3d3;
   border-radius: 20px;
   text-align: center;
@@ -45,4 +49,8 @@ export const Text = styled.div`
   display: -webkit-box;
   -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
+
+  @media (max-width: 576px) {
+    width: 100px;
+  }
 `;

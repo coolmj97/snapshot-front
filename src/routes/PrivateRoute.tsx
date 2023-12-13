@@ -2,7 +2,7 @@ import { Outlet, useNavigate } from 'react-router';
 import { auth } from '@/service/firebase';
 import { useEffect } from 'react';
 
-const LoginCheck = () => {
+const PrivateRoute = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -11,9 +11,9 @@ const LoginCheck = () => {
         navigate('/login');
       }
     });
-  }, [auth]);
+  }, [navigate]);
 
   return <Outlet />;
 };
 
-export default LoginCheck;
+export default PrivateRoute;

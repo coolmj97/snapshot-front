@@ -7,7 +7,7 @@ import { findAllFeed } from '@/apis/feed/feedApi';
 import { Layout, Title } from '@/components';
 import ListCard from '@/features/feed/List/ListCard';
 import { FeedParams } from '@/apis/feed/feedApi.types';
-import { Dimmer, Loader, Segment } from 'semantic-ui-react';
+import { Dimmer, Loader } from 'semantic-ui-react';
 import { EditIcon } from '@/assets/icons/EditIcon';
 
 const FeedListPage = () => {
@@ -68,7 +68,7 @@ const FeedListPage = () => {
             <Loader />
           </Dimmer>
         ) : (
-          <>
+          <Box>
             <Title title="피드" />
             {feeds?.length ? (
               <CardContainer>
@@ -81,6 +81,7 @@ const FeedListPage = () => {
                       data={feed}
                       hasImg={hasImg}
                       onClick={() => {
+                        console.log('click');
                         const path = generatePath('/feed/:id', {
                           id: feed._id,
                         });
@@ -97,7 +98,7 @@ const FeedListPage = () => {
             <WritingButton onClick={() => navigate('/feed/create')}>
               <EditIcon color="#fff" />
             </WritingButton>
-          </>
+          </Box>
         )}
       </Box>
     </Layout>
@@ -126,7 +127,7 @@ const WritingButton = styled.div`
 
 const Box = styled.div`
   height: 100vh;
-  padding: 48px 0;
+  padding: 24px 0;
   margin: 0 auto;
 `;
 
@@ -135,7 +136,6 @@ const CardContainer = styled.div`
   display: grid;
   place-items: center;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  grid-gap: 16px;
 
   @media (max-width: 576px) {
     padding: 16px;

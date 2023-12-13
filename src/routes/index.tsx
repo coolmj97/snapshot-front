@@ -7,22 +7,31 @@ import FeedEditPage from '@/pages/feed/FeedEditPage';
 import FeedListPage from '@/pages/feed/FeedListPage';
 import SignUpPage from '@/pages/SignUpPage';
 import LoginPage from '@/pages/LoginPage';
-import LoginCheck from '@/pages/LoginCheck';
+import WelcomePage from '@/pages/WelcomePage';
+import PrivateRoute from '@/routes/PrivateRoute';
 
 const Router = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/intro" element={<Intro />} />
-
+        <Route path="/" element={<Intro />} />
         <Route path="/sign-up" element={<SignUpPage />} />
+        <Route path="/welcome" element={<WelcomePage />} />
         <Route path="/login" element={<LoginPage />} />
 
-        <Route path="/" element={<LoginCheck />}>
+        <Route element={<PrivateRoute />}>
           <Route path="/feed/list" element={<FeedListPage />} />
+        </Route>
+        <Route element={<PrivateRoute />}>
           <Route path="/feed/create" element={<FeedCreatePage />} />
+        </Route>
+        <Route element={<PrivateRoute />}>
           <Route path="/feed/:id/edit" element={<FeedEditPage />} />
+        </Route>
+        <Route element={<PrivateRoute />}>
           <Route path="/feed/:id" element={<FeedDetailPage />} />
+        </Route>
+        <Route element={<PrivateRoute />}>
           <Route path="/user/setting" element={<UserSettingPage />} />
         </Route>
       </Routes>

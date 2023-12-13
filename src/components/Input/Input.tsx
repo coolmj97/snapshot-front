@@ -23,7 +23,7 @@ const fullWidthStyle = css<InputProps>`
 
 const StyledInput = styled.input<InputProps>`
   width: ${(props) => props.width};
-  height: ${(props) => props.height || '26px'};
+  height: 40px;
   display: inline-flex;
   border: 1px solid #d3d3d3;
   border-radius: 4px;

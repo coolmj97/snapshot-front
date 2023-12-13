@@ -5,6 +5,7 @@ import {
   setPersistence,
   signInWithEmailAndPassword,
   signInWithPopup,
+  signInWithRedirect,
 } from 'firebase/auth';
 import { auth } from './firebase';
 import { UserFormData } from '@/apis/user/userApi.types';
@@ -30,6 +31,7 @@ export const loginByEmail = async (payload: any) => {
 //구글로 로그인
 export const loginByGoogle = async () => {
   await setPersistence(auth, browserSessionPersistence);
+  // const data = await signInWithRedirect(auth, provider);
   const data = await signInWithPopup(auth, provider);
   return data;
 };

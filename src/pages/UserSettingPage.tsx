@@ -31,9 +31,9 @@ const UserSettingPage = () => {
 
       setOpenModal(true);
 
-      const credential = firebase.auth.EmailAuthProvider.credential(email, password);
+      const credential = firebase.auth?.EmailAuthProvider.credential(email, password);
 
-      await reauthenticateWithCredential(currentUser, credential);
+      if (credential) await reauthenticateWithCredential(currentUser, credential);
     } catch (e) {
       console.log(e);
     }

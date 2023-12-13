@@ -1,11 +1,11 @@
-import { Card, Img, Text } from './ListCard.styles';
+import { Card, CardBox, Img, Text } from './ListCard.styles';
 import { ListCardProps } from './ListCard.types';
 
 const ListCard = (props: ListCardProps) => {
   const { onClick, data, hasImg } = props;
 
   return (
-    <div>
+    <CardBox>
       <Card onClick={onClick}>
         <Img
           src={hasImg ? data.photos[0]?.url : '/src/assets/logo-gray.png'}
@@ -13,7 +13,7 @@ const ListCard = (props: ListCardProps) => {
         />
       </Card>
       <Text>{data.title}</Text>
-    </div>
+    </CardBox>
   );
 };
 

@@ -7,7 +7,7 @@ import { UserState, resetProfileImg, setForm, setProfileImg } from '@/redux/user
 import { useForm } from '../shared/useForm';
 import Upload from '@/components/Upload/Upload';
 import styled from 'styled-components';
-import { DeleteButton, ImgBox } from '../feed/Form/FeedForm.styles';
+import { DeleteButton, Img, ImgBox } from '../feed/Form/FeedForm.styles';
 import { DeleteIcon } from '@/assets/icons/DeleteIcon';
 
 interface SignUpFormProps {
@@ -131,12 +131,3 @@ const SignUpForm = (props: SignUpFormProps) => {
 };
 
 export default SignUpForm;
-
-const Img = styled.img`
-  width: 100px;
-  height: 100px;
-  margin-right: 8px;
-  border-radius: 20px;
-  border: 1px solid #d3d3d3;
-  object-fit: contain;
-`;

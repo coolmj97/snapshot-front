@@ -1,20 +1,26 @@
-import { Button, Input } from '@/components';
-import { Box, Error, Label } from '../shared/styles';
-import { changeLoginForm, resetLoginForm } from '@/redux/loginSlice';
-import { useForm } from '../shared/useForm';
 import { FormEvent, useEffect, useMemo, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router';
-import { useSelector } from 'react-redux';
-import { RootState } from '@/store';
+import { useLocation } from 'react-router';
+import { useSelector, useDispatch } from 'react-redux';
 import { loginByEmail } from '@/service/auth';
+import { Button, Input } from '@/components';
+import { changeLoginForm, resetLoginForm } from '@/redux/loginSlice';
+import { Box, Error, Label } from '../shared/styles';
+import { useForm } from '../shared/useForm';
+import { RootState } from '@/store';
 import Modal from '@/components/Modal/Modal';
-import { useDispatch } from 'react-redux';
+import { PrevArrow } from '@/assets/icons/PrevArrow';
+import styled from 'styled-components';
+import { Dimmer, Loader } from 'semantic-ui-react';
 
-const LoginForm = () => {
+interface LoginFormProps {
+  onBack: () => void;
+}
+
+const LoginForm = (props: LoginFormProps) => {
+  const { onBack } = props;
   const login = useSelector((state: RootState) => state.login);
   const { email, password } = login;
 
-  const navigate = useNavigate();
   const dispatch = useDispatch();
   const location = useLocation();
 
@@ -24,6 +30,7 @@ const LoginForm = () => {
 
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [isLogInError, setIsLogInError] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const errorMsg = useMemo(() => {
     if (!email) {
@@ -47,6 +54,7 @@ const LoginForm = () => {
       return;
     }
 
+    setIsLoading(true);
     try {
       const payload = {
         email,
@@ -54,7 +62,6 @@ const LoginForm = () => {
       };
 
       await loginByEmail(payload);
-      navigate('/feed/list');
     } catch (e: any) {
       const logInError = e.code === 'auth/invalid-login-credentials';
 
@@ -63,11 +70,21 @@ const LoginForm = () => {
         setOpenModal(true);
       }
     }
+
+    setIsLoading(false);
   };
 
   useEffect(() => {
     dispatch(resetLoginForm());
   }, [dispatch, location.pathname]);
+
+  if (isLoading) {
+    return (
+      <Dimmer active inverted>
+        <Loader />
+      </Dimmer>
+    );
+  }
 
   return (
     <>
@@ -82,7 +99,6 @@ const LoginForm = () => {
           />
           {email && !isValid.email && <Error>이메일 형식이 아닙니다</Error>}
         </Box>
-
         <Box>
           <Label htmlFor="password">비밀번호</Label>
           <Input
@@ -96,10 +112,15 @@ const LoginForm = () => {
             <Error>하나 이상의 영문, 숫자, 특수문자 조합 8~15자</Error>
           )}
         </Box>
-
         <Button type="submit" $background="#f0133a" $color="#fff" $marginTop="24px" $fullWidth>
           로그인
         </Button>
+
+        <Divider />
+
+        <BackButton onClick={onBack}>
+          <PrevArrow size={32} /> <div>뒤로</div>
+        </BackButton>
       </form>
 
       <Modal
@@ -115,3 +136,17 @@ const LoginForm = () => {
 };
 
 export default LoginForm;
+
+const BackButton = styled.div`
+  display: flex;
+  align-items: center;
+  font-size: 0.9rem;
+  cursor: pointer;
+`;
+
+const Divider = styled.div`
+  width: 100%;
+  height: 1px;
+  background: rgba(0, 0, 0, 0.05);
+  margin: 48px 0 24px 0;
+`;

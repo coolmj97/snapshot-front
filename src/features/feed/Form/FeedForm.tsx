@@ -46,6 +46,10 @@ const FeedForm = (props: FeedFormProps) => {
       return '제목을 입력해주세요.';
     }
 
+    if (content === '<p><br></p>') {
+      return '내용을 입력해주세요.';
+    }
+
     if (isSubmitted) {
       if (mode === Mode.Create) {
         return '피드가 등록되었습니다.';
@@ -57,7 +61,7 @@ const FeedForm = (props: FeedFormProps) => {
     if (isFeedError) {
       return '피드 제출 중 오류가 발생했습니다. 다시 시도해주세요.';
     }
-  }, [mode, title, isSubmitted, isFeedError, isUploadError]);
+  }, [mode, title, content, isSubmitted, isFeedError, isUploadError]);
 
   const onUpload = async (e: ChangeEvent<HTMLInputElement>) => {
     const fileList = e.target.files;
@@ -81,7 +85,8 @@ const FeedForm = (props: FeedFormProps) => {
 
         dispatch(setPhoto({ url: data.url, id: uuidv4() }));
       } catch (e) {
-        alert('알 수 없는 오류가 발생했습니다.');
+        console.log(e);
+        alert(e);
       }
     }
 
@@ -142,6 +147,19 @@ const FeedForm = (props: FeedFormProps) => {
     setIsUploadError(false);
   }, []);
 
+  useEffect(() => {
+    const onBeforeUnload = (event: BeforeUnloadEvent) => {
+      const message = '이 페이지를 떠나시겠습니까? 작성한 내용이 저장되지 않을 수 있습니다.';
+      event.returnValue = message;
+      return message;
+    };
+
+    window.addEventListener('beforeunload', onBeforeUnload);
+    return () => {
+      window.removeEventListener('beforeunload', onBeforeUnload);
+    };
+  }, []);
+
   return (
     <div>
       <form onSubmit={(e) => onSubmit(e)}>
@@ -153,7 +171,6 @@ const FeedForm = (props: FeedFormProps) => {
             value={title}
             onChange={(e) => dispatch(setTitle(e.target.value))}
             $fullWidth
-            height="38px"
           />
         </Box>
 
@@ -163,6 +180,8 @@ const FeedForm = (props: FeedFormProps) => {
           <div
             style={{
               display: 'flex',
+              flexWrap: 'wrap',
+              gap: '4px',
             }}
           >
             {photos.map((photo) => {
