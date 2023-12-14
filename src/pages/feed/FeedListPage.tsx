@@ -38,10 +38,11 @@ const FeedListPage = () => {
     queryFn: ({ pageParam }) => getFeeds({ pageParam }),
     enabled: isLoggedIn,
     initialPageParam: 0,
-    getNextPageParam: (lastPage, allPages, lastPageParam) => {
+    getNextPageParam: (lastPage, pages, lastPageParam) => {
       if (lastPage.length === 0) {
         return undefined;
       }
+
       return lastPageParam + 1;
     },
   });

@@ -1,4 +1,4 @@
-import { IconProps } from './types/Icon.types';
+import { IconProps } from './types/Icons.types';
 
 export const PrevArrow = ({ size, color, ...args }: IconProps) => {
   return (

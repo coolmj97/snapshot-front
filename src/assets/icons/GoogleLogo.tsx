@@ -1,4 +1,4 @@
-import { IconProps } from './types/icon.types';
+import { IconProps } from './types/Icons.types';
 
 export const GoogleLogo = ({ ...args }: IconProps) => {
   return (
