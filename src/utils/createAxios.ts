@@ -2,8 +2,10 @@ import { auth } from '@/service/firebase';
 import axios from 'axios';
 
 const createAxios = () => {
+  const baseURL = import.meta.env.VITE_BASE_URL;
+
   const instance = axios.create({
-    baseURL: 'http://localhost:3000',
+    baseURL,
     timeout: 15000,
     headers: { 'Content-Type': 'application/json' },
   });
