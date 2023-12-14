@@ -11,7 +11,7 @@ import { Layout, Title } from '@/components';
 import Modal from '@/components/Modal/Modal';
 import { Dimmer, Loader } from 'semantic-ui-react';
 
-const SignUpPage = () => {
+const SignupPage = () => {
   const user = useSelector((state: RootState) => state.user);
   const { profileImg, email, username, password, passwordCheck } = user;
 
@@ -119,7 +119,7 @@ const SignUpPage = () => {
   );
 };
 
-export default SignUpPage;
+export default SignupPage;
 
 const Box = styled.div`
   width: 400px;

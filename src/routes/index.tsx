@@ -5,7 +5,7 @@ import FeedCreatePage from '@/pages/feed/FeedCreatePage';
 import FeedDetailPage from '@/pages/feed/FeedDetailPage';
 import FeedEditPage from '@/pages/feed/FeedEditPage';
 import FeedListPage from '@/pages/feed/FeedListPage';
-import SignUpPage from '@/pages/SignUpPage';
+import SignupPage from '@/pages/SignUpPage';
 import LoginPage from '@/pages/LoginPage';
 import WelcomePage from '@/pages/WelcomePage';
 import PrivateRoute from '@/routes/PrivateRoute';
@@ -15,7 +15,7 @@ const Router = () => {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Intro />} />
-        <Route path="/sign-up" element={<SignUpPage />} />
+        <Route path="/sign-up" element={<SignupPage />} />
         <Route path="/welcome" element={<WelcomePage />} />
         <Route path="/login" element={<LoginPage />} />
 
