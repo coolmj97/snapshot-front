@@ -5,7 +5,7 @@ import FeedCreatePage from '@/pages/feed/FeedCreatePage';
 import FeedDetailPage from '@/pages/feed/FeedDetailPage';
 import FeedEditPage from '@/pages/feed/FeedEditPage';
 import FeedListPage from '@/pages/feed/FeedListPage';
-import SignupPage from '@/pages/SignUpPage';
+import SignupPage from '@/pages/SignupPage';
 import LoginPage from '@/pages/LoginPage';
 import WelcomePage from '@/pages/WelcomePage';
 import PrivateRoute from '@/routes/PrivateRoute';
