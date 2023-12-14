@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const CardBox = styled.div`
-  margin-bottom: 48px;
+  margin-bottom: 24px;
 `;
 
 export const Card = styled.div`

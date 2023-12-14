@@ -136,6 +136,7 @@ const CardContainer = styled.div`
   display: grid;
   place-items: center;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-gap: 16px;
 
   @media (max-width: 576px) {
     padding: 16px;
