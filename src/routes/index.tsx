@@ -5,17 +5,17 @@ import FeedCreatePage from '@/pages/feed/FeedCreatePage';
 import FeedDetailPage from '@/pages/feed/FeedDetailPage';
 import FeedEditPage from '@/pages/feed/FeedEditPage';
 import FeedListPage from '@/pages/feed/FeedListPage';
-import SignupPage from '@/pages/SignupPage';
 import LoginPage from '@/pages/LoginPage';
 import WelcomePage from '@/pages/WelcomePage';
 import PrivateRoute from '@/routes/PrivateRoute';
+import RegistrationPage from '@/pages/RegistrationPage';
 
 const Router = () => {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Intro />} />
-        <Route path="/sign-up" element={<SignupPage />} />
+        <Route path="/sign-up" element={<RegistrationPage />} />
         <Route path="/welcome" element={<WelcomePage />} />
         <Route path="/login" element={<LoginPage />} />
 
