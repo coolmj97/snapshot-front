@@ -1,10 +1,12 @@
 {
-  "routes": {
-    "/api/*": {
-      "methods": ["GET", "POST", "PUT", "DELETE"],
-      "allowHeaders": ["Content-Type", "Authorization"],
-      "allowCredentials": true,
-      "allowOrigin": ["*"]
+  "routes": [
+    {
+      "/api/*": {
+        "methods": ["GET", "POST", "PUT", "DELETE"],
+        "allowHeaders": ["Content-Type", "Authorization"],
+        "allowCredentials": true,
+        "allowOrigin": ["*"]
+      }
     }
-  }
+  ]
 }
