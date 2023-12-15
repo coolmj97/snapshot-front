@@ -1,10 +1,12 @@
 {
-  "routes": {
-    "/api/*": {
+  "version": 2,
+  "routes": [
+    {
+      "src": "/api/*",
       "methods": ["GET", "POST", "PUT", "DELETE"],
       "allowHeaders": ["Content-Type", "Authorization"],
       "allowCredentials": true,
       "allowOrigin": ["*"]
     }
-  }
+  ]
 }
