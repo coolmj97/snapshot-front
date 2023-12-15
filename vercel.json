@@ -5,9 +5,9 @@
       "src": "/api/*",
       "methods": ["GET", "POST", "PUT", "DELETE"],
       "headers": ["Content-Type", "Authorization"],
-      "allow": ["*"],
       "options": {
-        "allowCredentials": true
+        "origin": "*",
+        "credentials": true
       }
     }
   ]
