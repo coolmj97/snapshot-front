@@ -90,7 +90,10 @@ const Layout = ({ children }: LayoutProps) => {
               navigate('/');
             }}
           >
-            <img src="/src/assets/logo.png" width={'100%'} />
+            <img
+              src="https://kmj-test-bucket.s3.ap-northeast-2.amazonaws.com/public/logo.png"
+              width={'100%'}
+            />
           </LogoBox>
 
           {!isLoggedIn ? (

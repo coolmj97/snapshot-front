@@ -7,7 +7,10 @@ const Intro = () => {
 
   return (
     <Box>
-      <img src="./src/assets/logo-large.png" width={'100%'} />
+      <img
+        src="https://kmj-test-bucket.s3.ap-northeast-2.amazonaws.com/public/logo-large.png"
+        width={'100%'}
+      />
 
       <IntroParagraph>지금 나의 순간을 기록하세요</IntroParagraph>
 

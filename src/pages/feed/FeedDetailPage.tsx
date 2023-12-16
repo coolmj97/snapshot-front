@@ -186,6 +186,7 @@ const ProfileMenuBox = styled.div`
   justify-content: space-between;
   align-items: center;
   padding-bottom: 32px;
+  margin-bottom: 32px;
   border-bottom: 2px solid rgba(0, 0, 0, 0.05);
 `;
 
