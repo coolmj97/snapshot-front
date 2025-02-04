@@ -38,7 +38,7 @@ const FeedListPage = () => {
     queryFn: ({ pageParam }) => getFeeds({ pageParam }),
     enabled: isLoggedIn,
     initialPageParam: 0,
-    getNextPageParam: (lastPage, pages, lastPageParam) => {
+    getNextPageParam: (lastPage, _, lastPageParam) => {
       if (lastPage.length === 0) {
         return undefined;
       }

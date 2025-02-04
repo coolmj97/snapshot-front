@@ -12,7 +12,8 @@ export const signUpSlice = createSlice({
   initialState,
   reducers: {
     signUp: (state, action) => {
-      state = action.payload;
+      state.email = action.payload.email;
+      state.password = action.payload.password;
     },
   },
 });
