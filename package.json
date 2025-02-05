@@ -31,6 +31,7 @@
     "uuidv4": "^6.2.13"
   },
   "devDependencies": {
+    "@flydotio/dockerfile": "^0.7.4",
     "@tanstack/eslint-plugin-query": "^5.8.3",
     "@tanstack/react-query-devtools": "^5.8.3",
     "@types/dompurify": "^3.0.5",
