@@ -1,9 +1,9 @@
-# fly.toml app configuration file generated for snapshot-front-bold-snowflake-2945 on 2025-02-05T14:21:41+09:00
+# fly.toml app configuration file generated for snapshot-front-cold-dew-6397 on 2025-02-05T23:52:33+09:00
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
 
-app = 'snapshot-front-bold-snowflake-2945'
+app = 'snapshot-front-cold-dew-6397'
 primary_region = 'nrt'
 
 [build]
