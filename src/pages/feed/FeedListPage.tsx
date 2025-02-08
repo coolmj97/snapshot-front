@@ -82,7 +82,6 @@ const FeedListPage = () => {
                       data={feed}
                       hasImg={hasImg}
                       onClick={() => {
-                        console.log('click');
                         const path = generatePath('/feed/:id', {
                           id: feed._id,
                         });
